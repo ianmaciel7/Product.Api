@@ -1,0 +1,1 @@
+﻿global using Entities = Product.Api.Data.Entities;
