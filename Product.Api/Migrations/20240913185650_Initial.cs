@@ -2,12 +2,10 @@
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace Product.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,14 +18,14 @@ namespace Product.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryId1 = table.Column<int>(type: "int", nullable: true)
+                    ParentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.CategoryId);
                     table.ForeignKey(
-                        name: "FK_Categories_Categories_CategoryId1",
-                        column: x => x.CategoryId1,
+                        name: "FK_Categories_Categories_ParentId",
+                        column: x => x.ParentId,
                         principalTable: "Categories",
                         principalColumn: "CategoryId");
                 });
@@ -54,19 +52,10 @@ namespace Product.Api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "CategoryId", "CategoryId1", "Description", "Name" },
-                values: new object[,]
-                {
-                    { 1, null, "Descrição da Categoria Padrão 1", "Categoria Padrão 1" },
-                    { 2, null, "Descrição da Categoria Padrão 2", "Categoria Padrão 2" }
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_CategoryId1",
+                name: "IX_Categories_ParentId",
                 table: "Categories",
-                column: "CategoryId1");
+                column: "ParentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",

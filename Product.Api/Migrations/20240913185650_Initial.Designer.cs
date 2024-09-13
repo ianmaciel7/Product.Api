@@ -12,8 +12,8 @@ using Product.Api.Data;
 namespace Product.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240912141518_initial")]
-    partial class initial
+    [Migration("20240913185650_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,16 +25,13 @@ namespace Product.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Product.Api.Data.Entities.Category", b =>
+            modelBuilder.Entity("Product.Api.Data.Entities.Categories.Category", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
-
-                    b.Property<int?>("CategoryId1")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -44,25 +41,14 @@ namespace Product.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
                     b.HasKey("CategoryId");
 
-                    b.HasIndex("CategoryId1");
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            CategoryId = 1,
-                            Description = "Descrição da Categoria Padrão 1",
-                            Name = "Categoria Padrão 1"
-                        },
-                        new
-                        {
-                            CategoryId = 2,
-                            Description = "Descrição da Categoria Padrão 2",
-                            Name = "Categoria Padrão 2"
-                        });
                 });
 
             modelBuilder.Entity("Product.Api.Data.Entities.Product", b =>
@@ -94,16 +80,18 @@ namespace Product.Api.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Product.Api.Data.Entities.Category", b =>
+            modelBuilder.Entity("Product.Api.Data.Entities.Categories.Category", b =>
                 {
-                    b.HasOne("Product.Api.Data.Entities.Category", null)
+                    b.HasOne("Product.Api.Data.Entities.Categories.Category", "Parent")
                         .WithMany("SubCategories")
-                        .HasForeignKey("CategoryId1");
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Product.Api.Data.Entities.Product", b =>
                 {
-                    b.HasOne("Product.Api.Data.Entities.Category", "Category")
+                    b.HasOne("Product.Api.Data.Entities.Categories.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -112,7 +100,7 @@ namespace Product.Api.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Product.Api.Data.Entities.Category", b =>
+            modelBuilder.Entity("Product.Api.Data.Entities.Categories.Category", b =>
                 {
                     b.Navigation("Products");
 

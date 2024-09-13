@@ -8,7 +8,7 @@ namespace Product.Api.Services
     {
         public GetCategoryOutputModel Get(GetCategoryInputModel inputModel)
         {
-            var categories = categoryRepository.List(inputModel).ToList();
+            var categories = categoryRepository.Get(inputModel).ToList();
             return mapper.Map<GetCategoryOutputModel>(categories);
         }
     }

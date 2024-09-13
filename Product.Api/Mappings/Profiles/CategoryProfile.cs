@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Product.Api.Data.Entities;
+using Product.Api.Data.Entities.Categories;
 using Product.Api.Dtos;
 
 namespace Product.Api.Mappings.Profiles
@@ -9,7 +9,7 @@ namespace Product.Api.Mappings.Profiles
         public CategoryProfile()
         {
             CreateMap<Category, GetCategoryInputModel>();
-            CreateMap<IEnumerable<Category>, GetCategoryOutputModel>().ConstructUsing(categories => new GetCategoryOutputModel(categories)); ;
+            CreateMap<IEnumerable<Category>, GetCategoryOutputModel>().ConstructUsing(categories => new GetCategoryOutputModel(categories));
 
         }
     }

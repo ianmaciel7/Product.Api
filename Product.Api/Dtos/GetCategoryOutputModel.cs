@@ -1,4 +1,5 @@
-﻿using Product.Api.Data.Entities;
+﻿using Product.Api.Data.Entities.Categories;
+using Product.Api.Dtos.Base;
 using System.Collections;
 
 namespace Product.Api.Dtos

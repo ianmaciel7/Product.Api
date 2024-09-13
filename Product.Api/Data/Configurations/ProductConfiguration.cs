@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Product.Api.Data.Entities;
 
 namespace Product.Api.Data.Configurations
 {
@@ -9,11 +10,28 @@ namespace Product.Api.Data.Configurations
 
         public void Configure(EntityTypeBuilder<Entities.Product> builder)
         {
-            builder.HasKey(p => p.ProductId);
-            builder.Property(p => p.ProductId).ValueGeneratedOnAdd();
+
 
             if (_env.IsDevelopment())
             {
+                builder.HasData(
+                new Entities.Product
+                {
+                    ProductId = 1,
+                    Name = "Product 1",
+                    Description = "Product 1 Description",
+                    Price = 100,
+                    CategoryId = 1
+                },
+                new Entities.Product
+                {
+                    ProductId = 2,
+                    Name = "Product 2",
+                    Description = "Product 2 Description",
+                    Price = 200,
+                    CategoryId = 2
+                }
+                );
             }
         }
     }

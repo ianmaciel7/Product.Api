@@ -1,13 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Product.Api.Data.Configurations;
-using Product.Api.Data.Entities;
+using Product.Api.Data.Entities.Categories;
 
 namespace Product.Api.Data
 {
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IWebHostEnvironment env) : DbContext(options)
     {
         public DbSet<Category> Categories { get; set; }
+        //public DbSet<MainCategory> MainCategories { get; set; }
+        //public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Entities.Product> Products { get; set; }
+       
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
