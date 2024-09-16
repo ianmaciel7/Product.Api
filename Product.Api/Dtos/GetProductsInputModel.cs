@@ -2,7 +2,7 @@
 
 namespace Product.Api.Dtos
 {
-    public record GetProductInputModel() : IInputModel
+    public record GetProductsInputModel() : IInputModel
     {
     }
 }

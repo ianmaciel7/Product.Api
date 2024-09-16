@@ -6,6 +6,6 @@ namespace Product.Api.Repositories
 {
     public interface ICategoryRepository : IRepository
     {
-        IEnumerable<Category> Get(GetCategoryInputModel? inputModel = null);
+        IEnumerable<Category> Get(GetCategoriesInputModel? inputModel = null);
     }
 }

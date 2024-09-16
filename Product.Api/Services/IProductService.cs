@@ -4,6 +4,6 @@ namespace Product.Api.Services
 {
     public interface IProductService
     {
-        GetProductOutputModel Get(GetProductInputModel inputModel);
+        GetProductsOutputModel Get(GetProductsInputModel inputModel);
     }
 }

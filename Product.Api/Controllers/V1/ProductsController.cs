@@ -8,11 +8,11 @@ namespace Product.Api.Controllers.V1
     [ApiController]
     public class ProductsController(IProductService productService) : ControllerBase
     {
-        [HttpGet]
-        public IActionResult Get([FromQuery] GetProductInputModel inputModel)
+        [HttpGet(Name = GET_PRODUCTS)]
+        public IActionResult Get([FromQuery] GetProductsInputModel inputModel)
         {
-            var categories = productService.Get(inputModel);
-            return Ok(categories);
+            var products = productService.Get(inputModel);
+            return Ok(products);
         }
     }
 }

@@ -3,9 +3,9 @@ using System.Collections;
 
 namespace Product.Api.Dtos
 {
-    public record GetProductOutputModel(IEnumerable<Entities.Product> Products) : IEnumerableOutputModel<Entities.Product>
+    public record GetProductsOutputModel(IEnumerable<CompactProcuctOutputModel> Products) : IEnumerableOutputModel<CompactProcuctOutputModel>
     {
-        public IEnumerator<Entities.Product> GetEnumerator()
+        public IEnumerator<CompactProcuctOutputModel> GetEnumerator()
         {
             return Products.GetEnumerator();
         }

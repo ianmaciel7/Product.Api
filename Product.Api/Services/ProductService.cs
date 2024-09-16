@@ -4,12 +4,15 @@ using Product.Api.Repositories;
 
 namespace Product.Api.Services
 {
-    public class ProductService(IMapper mapper,IProductRepository productRepository) : IProductService
+    internal class ProductService(IUrlService urlService,IMapper mapper,IProductRepository productRepository) : IProductService
     {
-        public GetProductOutputModel Get(GetProductInputModel inputModel)
+        public GetProductsOutputModel Get(GetProductsInputModel inputModel)
         {
-            var products = productRepository.Get(inputModel).ToList();
-            return mapper.Map<GetProductOutputModel>(products);
+            var products = productRepository.Get(inputModel);
+            return mapper.Map<GetProductsOutputModel>(products, options =>
+            {
+                options.Items["urlService"] = urlService;
+            });
         }
     }
 }

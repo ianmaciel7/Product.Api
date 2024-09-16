@@ -4,12 +4,15 @@ using Product.Api.Repositories;
 
 namespace Product.Api.Services
 {
-    internal class CategoryService(IMapper mapper,ICategoryRepository categoryRepository) : ICategoryService
+    internal class CategoryService(IUrlService urlService, IMapper mapper,ICategoryRepository categoryRepository) : ICategoryService
     {
-        public GetCategoryOutputModel Get(GetCategoryInputModel inputModel)
+        public GetCategoriesOutputModel Get(GetCategoriesInputModel inputModel)
         {
-            var categories = categoryRepository.Get(inputModel).ToList();
-            return mapper.Map<GetCategoryOutputModel>(categories);
+            var categories = categoryRepository.Get(inputModel);
+            return mapper.Map<GetCategoriesOutputModel>(categories, options =>
+            {
+                options.Items["urlService"] = urlService;
+            });
         }
     }
 }
