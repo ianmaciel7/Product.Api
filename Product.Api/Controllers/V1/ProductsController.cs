@@ -9,7 +9,7 @@ namespace Product.Api.Controllers.V1
     public class ProductsController(IProductService productService) : ControllerBase
     {
         [HttpGet(Name = GET_PRODUCTS)]
-        public IActionResult Get([FromQuery] GetProductsInputModel inputModel)
+        public IActionResult Get(GetProductsInputModel inputModel)
         {
             var products = productService.Get(inputModel);
             return Ok(products);

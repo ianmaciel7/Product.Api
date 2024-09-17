@@ -10,7 +10,7 @@ namespace Product.Api.Controllers.V1
     public class CategoriesController(ICategoryService categoryService) : ControllerBase
     {
         [HttpGet(Name = GET_CATEGORIES)]
-        public IActionResult Get([FromQuery] GetCategoriesInputModel inputModel)
+        public IActionResult Get(GetCategoriesInputModel inputModel)
         {
             var categories = categoryService.Get(inputModel);
             return Ok(categories);
