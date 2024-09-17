@@ -10,6 +10,8 @@ namespace Product.Api.Data.Configurations
 
         public void Configure(EntityTypeBuilder<Category> builder)
         {
+            builder.Navigation(p => p.Products).AutoInclude();
+
             if (_env.IsDevelopment())
             {
                 builder.HasData(

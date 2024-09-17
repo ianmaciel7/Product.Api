@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Product.Api.Data.Entities;
 
 namespace Product.Api.Data.Configurations
 {
@@ -11,6 +10,7 @@ namespace Product.Api.Data.Configurations
         public void Configure(EntityTypeBuilder<Entities.Product> builder)
         {
 
+            builder.Navigation(p => p.Category).AutoInclude();
 
             if (_env.IsDevelopment())
             {

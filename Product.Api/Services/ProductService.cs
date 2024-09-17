@@ -8,7 +8,7 @@ namespace Product.Api.Services
     {
         public GetProductsOutputModel Get(GetProductsInputModel inputModel)
         {
-            var products = productRepository.Get(inputModel);
+            var products = productRepository.Get(inputModel).ToList();
             return mapper.Map<GetProductsOutputModel>(products, options =>
             {
                 options.Items["urlService"] = urlService;

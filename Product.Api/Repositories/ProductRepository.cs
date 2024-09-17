@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Product.Api.Data;
+﻿using Product.Api.Data;
 using Product.Api.Dtos;
 using Product.Api.Repositories;
 
@@ -13,6 +12,6 @@ internal class ProductRepository(ApplicationDbContext dbContext) : IProductRepos
             return entities;
         }
 
-        return entities.Include(e => e.Category);
+        return entities;
     }
 }

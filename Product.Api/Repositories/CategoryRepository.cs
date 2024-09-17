@@ -10,12 +10,13 @@ namespace Product.Api.Repositories
         public IEnumerable<Category> Get(GetCategoriesInputModel? inputModel = null)
         {
             var entities = dbContext.Categories;
+
             if (inputModel == null)
             {
                 return entities;
             }
 
-            return entities.Include(e => e.SubCategories).Include(e => e.Products);
+            return entities;
         }
     }
 }
