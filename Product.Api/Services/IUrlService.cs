@@ -1,8 +1,12 @@
-﻿namespace Product.Api.Services
+﻿using Product.Api.Dtos;
+
+namespace Product.Api.Services
 {
     public interface IUrlService
     {
-        Uri GetCategories(int? categoryId);
-        Uri GetProducts(int? productId);
+        Uri GetAllCategoriesUri(FindAllCategoriesInputModel inputModel);
+        Uri GetAllProductsUri(FindAllProductsInputModel inputModel);
+        Uri GetCategoryUri(FindCategoryInputModel inputModel);
+        Uri GetProductUri(FindAllProductsInputModel inputModel);
     }
 }

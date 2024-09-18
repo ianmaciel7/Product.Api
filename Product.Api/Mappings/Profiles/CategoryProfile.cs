@@ -9,20 +9,20 @@ namespace Product.Api.Mappings.Profiles
     {
         public CategoryProfile()
         {
-            CreateMap<Category, GetCategoriesInputModel>();
-            CreateMap<Category, GetCategoriesOutputModel>();
-            CreateMap<Category, CompactCategoryOutputModel>()
+            CreateMap<Category, FindAllCategoriesInputModel>();
+            CreateMap<Category, FindAllCategoriesOutputModel>();
+            CreateMap<Category, FindCategoryOutputModel>()
                 .ForCtorParam("CategoryId", opt => opt.MapFrom(src => src.CategoryId))
                 .ForCtorParam("Name", opt => opt.MapFrom(src => src.Name))
                 .ForCtorParam("Products", opt => opt.MapFrom(src => src.Products));
-            CreateMap<IEnumerable<Category>, GetCategoriesOutputModel>().ForCtorParam("Categories", opt => opt.MapFrom(src => src));
-            CreateMap<Category, Uri>().ConstructUsing(MapByUri);    
+            CreateMap<IEnumerable<Category>, FindAllCategoriesOutputModel>().ForCtorParam("Categories", opt => opt.MapFrom(src => src));
+            CreateMap<Category, Uri?>().ConstructUsing(MapByUri);    
         }
 
-        private Uri MapByUri(Category category, ResolutionContext context)
+        private Uri? MapByUri(Category category, ResolutionContext context)
         {
             var urlService = context.Items["urlService"] as IUrlService;
-            var uri = urlService?.GetCategories(category.CategoryId);
+            var uri = urlService?.GetCategoryUri(new(category.CategoryId));
             return uri;
         }
     }

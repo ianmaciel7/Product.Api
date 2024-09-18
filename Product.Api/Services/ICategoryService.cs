@@ -4,6 +4,7 @@ namespace Product.Api.Services
 {
     public interface ICategoryService
     {
-        GetCategoriesOutputModel Get(GetCategoriesInputModel inputModel);
+        FindAllCategoriesOutputModel GetAll(FindAllCategoriesInputModel inputModel);
+        FindCategoryOutputModel Get(FindCategoryInputModel inputModel);
     }
 }

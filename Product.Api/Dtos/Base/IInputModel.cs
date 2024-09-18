@@ -3,4 +3,8 @@
     public interface IInputModel
     {
     }
+
+    public interface IInputModel<T>  : IInputModel
+    {
+    }
 }

@@ -6,10 +6,19 @@ namespace Product.Api.Services
 {
     internal class CategoryService(IUrlService urlService, IMapper mapper,ICategoryRepository categoryRepository) : ICategoryService
     {
-        public GetCategoriesOutputModel Get(GetCategoriesInputModel inputModel)
+        public FindAllCategoriesOutputModel GetAll(FindAllCategoriesInputModel inputModel)
         {
-            var categories = categoryRepository.Get(inputModel);
-            return mapper.Map<GetCategoriesOutputModel>(categories, options =>
+            var categories = categoryRepository.FindAll(inputModel);
+            return mapper.Map<FindAllCategoriesOutputModel>(categories, options =>
+            {
+                options.Items["urlService"] = urlService;
+            });
+        }
+
+        public FindCategoryOutputModel Get(FindCategoryInputModel inputModel)
+        {
+            var category = categoryRepository.FindAll(inputModel);
+            return mapper.Map<FindCategoryOutputModel>(category, options =>
             {
                 options.Items["urlService"] = urlService;
             });

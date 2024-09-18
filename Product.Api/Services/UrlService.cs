@@ -1,35 +1,35 @@
-﻿namespace Product.Api.Services
+﻿using Product.Api.Dtos;
+
+namespace Product.Api.Services
 {
     public class UrlService(LinkGenerator linkGenerator, IHttpContextAccessor httpContextAccessor) : IUrlService
     {
         private readonly LinkGenerator _linkGenerator = linkGenerator;
         private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
-        public Uri GetCategories(int? categoryId)
+        public Uri GetAllCategoriesUri(FindAllCategoriesInputModel inputModel)
         {
-            return GetResourceOrGetPath(GET_CATEGORIES, categoryId.Value);
+            return GetUri(GET_ALL_CATEGORIES, inputModel);
+        }
+        public Uri GetCategoryUri(FindCategoryInputModel inputModel)
+        {
+            return GetUri(GET_CATEGORY, inputModel);
         }
 
-        public Uri GetProducts(int? productId)
+        public Uri GetAllProductsUri(FindAllProductsInputModel inputModel)
         {
-            return GetResourceOrGetPath(GET_PRODUCTS, productId.Value);
+            return GetUri(GET_ALL_PRODUCTS, inputModel);
         }
 
-        private Uri GetResourceOrGetPath(string path, int? id)
+        public Uri GetProductUri(FindAllProductsInputModel inputModel)
         {
-            string url = _linkGenerator.GetUriByName(_httpContextAccessor.HttpContext, path, new { id }) ?? "";
-            return new Uri(url);
+            return GetUri(GET_PRODUCT, inputModel);
         }
 
-        private Uri GetPath(string path)
+        private Uri GetUri(string name, object? values=null)
         {
-            string url = _linkGenerator.GetUriByName(_httpContextAccessor.HttpContext, path) ?? "";
-            return new Uri(url);
-        }
-
-        private Uri GetResource(string context,int id)
-        {
-            string url = _linkGenerator.GetUriByName(_httpContextAccessor.HttpContext, context, new { id }) ?? "";
+            var httpContext = _httpContextAccessor.HttpContext ?? throw new InvalidOperationException("HttpContext is null");
+            string url = _linkGenerator.GetUriByName(httpContext, name, values) ?? "";
             return new Uri(url);
         }
     }

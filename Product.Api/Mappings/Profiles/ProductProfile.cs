@@ -8,24 +8,24 @@ namespace Product.Api.Mappings.Profiles
     {
         public ProductProfile()
         {
-            CreateMap<Entities.Product, GetProductsInputModel>();
-            CreateMap<Entities.Product, CompactProcuctOutputModel>()
+            CreateMap<Entities.Product, FindAllProductsInputModel>();
+            CreateMap<Entities.Product, FindProductOutputModel>()
                .ForCtorParam("ProductId", opt => opt.MapFrom(src => src.ProductId))
                .ForCtorParam("Name", opt => opt.MapFrom(src => src.Name))
                .ForCtorParam("Description", opt => opt.MapFrom(src => src.Description))
                .ForCtorParam("Category", opt => opt.MapFrom(src => src.Category))
                .ForCtorParam("Price", opt => opt.MapFrom(src => src.Price));
-            CreateMap<IEnumerable<Entities.Product>, GetProductsOutputModel>()
-                .ForCtorParam("Products", opt => opt.MapFrom((src, context) => context.Mapper.Map<IEnumerable<CompactProcuctOutputModel>>(src)));
-            CreateMap<Entities.Product, Uri>()
+            CreateMap<IEnumerable<Entities.Product>, FindAllProductsOutputModel>()
+                .ForCtorParam("Products", opt => opt.MapFrom((src, context) => context.Mapper.Map<IEnumerable<FindProductOutputModel>>(src)));
+            CreateMap<Entities.Product, Uri?>()
                 .ConstructUsing(MapByUri);
 
         }
 
-        private Uri MapByUri(Entities.Product product,ResolutionContext context)
+        private Uri? MapByUri(Entities.Product product,ResolutionContext context)
         {
             var urlService = context.Items["urlService"] as IUrlService;
-            var uri = urlService?.GetProducts(product.ProductId);
+            var uri = urlService?.GetProductUri(new(product.ProductId));
             return uri;
         }
     }

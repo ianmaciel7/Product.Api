@@ -5,6 +5,7 @@ namespace Product.Api.Repositories
 {
     public interface IProductRepository : IRepository
     {
-        IEnumerable<Entities.Product> Get(GetProductsInputModel inputModel);
+        IEnumerable<Entities.Product> FindAll(FindAllProductsInputModel? inputModel = null);
+        Entities.Product? Find(FindProductInputModel inputModel);
     }
 }

@@ -6,10 +6,19 @@ namespace Product.Api.Services
 {
     internal class ProductService(IUrlService urlService,IMapper mapper,IProductRepository productRepository) : IProductService
     {
-        public GetProductsOutputModel Get(GetProductsInputModel inputModel)
+        public FindProductOutputModel Find(FindProductInputModel inputModel)
         {
-            var products = productRepository.Get(inputModel).ToList();
-            return mapper.Map<GetProductsOutputModel>(products, options =>
+            var product = productRepository.Find(inputModel);
+            return mapper.Map<FindProductOutputModel>(product, options =>
+            {
+                options.Items["urlService"] = urlService;
+            });
+        }
+
+        public FindAllProductsOutputModel FindAll(FindAllProductsInputModel inputModel)
+        {
+            var products = productRepository.FindAll(inputModel).ToList();
+            return mapper.Map<FindAllProductsOutputModel>(products, options =>
             {
                 options.Items["urlService"] = urlService;
             });

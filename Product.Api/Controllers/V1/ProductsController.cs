@@ -8,10 +8,17 @@ namespace Product.Api.Controllers.V1
     [ApiController]
     public class ProductsController(IProductService productService) : ControllerBase
     {
-        [HttpGet(Name = GET_PRODUCTS)]
-        public IActionResult Get(GetProductsInputModel inputModel)
+        [HttpGet(Name = GET_ALL_PRODUCTS)]
+        public IActionResult Get(FindAllProductsInputModel inputModel)
         {
-            var products = productService.Get(inputModel);
+            var products = productService.FindAll(inputModel);
+            return Ok(products);
+        }
+
+        [HttpGet("{ProductId:int}", Name = GET_PRODUCT)]
+        public IActionResult Get(FindProductInputModel inputModel)
+        {
+            var products = productService.Find(inputModel);
             return Ok(products);
         }
     }
