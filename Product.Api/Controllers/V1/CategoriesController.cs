@@ -12,14 +12,14 @@ namespace Product.Api.Controllers.V1
         [HttpGet(Name = GET_ALL_CATEGORIES)]
         public IActionResult Get(FindAllCategoriesInputModel inputModel)
         {
-            var categories = categoryService.GetAll(inputModel);
+            var categories = categoryService.FindAll(inputModel);
             return Ok(categories);
         }
 
         [HttpGet("/{CategoryId:int}", Name = GET_CATEGORY)]
         public IActionResult Get(FindCategoryInputModel inputModel)
         {
-            var categories = categoryService.Get(inputModel);
+            var categories = categoryService.Find(inputModel);
             return Ok(categories);
         }
     }
