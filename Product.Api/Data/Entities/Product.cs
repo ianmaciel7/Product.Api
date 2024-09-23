@@ -1,6 +1,4 @@
-﻿using Product.Api.Data.Entities.Categories;
-
-namespace Product.Api.Data.Entities
+﻿namespace Product.Api.Data.Entities
 {
     public class Product
     {
@@ -9,7 +7,7 @@ namespace Product.Api.Data.Entities
         public decimal Price { get; init; }
         public required string Description { get; init; }
         public required int CategoryId { get; init; }
-        public Category? Category { get; init; }
+        public virtual Category? Category { get; init; }
 
     }
 }

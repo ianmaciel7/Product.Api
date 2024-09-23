@@ -16,18 +16,13 @@ internal class ProductRepository(ApplicationDbContext dbContext) : IProductRepos
 
     public IEnumerable<Entities.Product> FindAll(FindAllProductsInputModel? inputModel = null)
     {
-        var entities = dbContext.Products.AsQueryable();
+        var entities = dbContext.Products;
 
-        if (inputModel is null)
+        if (inputModel == null || inputModel.ProductId == null)
         {
             return entities;
         }
 
-        if (inputModel.ProductId.HasValue)
-        {
-            entities = entities.Where(e => e.ProductId == inputModel.ProductId);
-        }
-
-        return entities;
+        return entities.Where(e => e.ProductId == inputModel.ProductId);
     }
 }

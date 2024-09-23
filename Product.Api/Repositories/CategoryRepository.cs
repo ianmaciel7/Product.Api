@@ -1,5 +1,5 @@
 ﻿using Product.Api.Data;
-using Product.Api.Data.Entities.Categories;
+using Product.Api.Data.Entities;
 using Product.Api.Dtos;
 
 namespace Product.Api.Repositories
@@ -22,12 +22,12 @@ namespace Product.Api.Repositories
         {
             var entities = dbContext.Categories;
 
-            if (inputModel == null)
+            if (inputModel == null || inputModel.CategoryId == null)
             {
-                return entities;
+                return entities.Where(e => e.ParentId == null);
             }
 
-            return entities;
+            return entities.Where(e => e.CategoryId == inputModel.CategoryId);
         }
     }
 }

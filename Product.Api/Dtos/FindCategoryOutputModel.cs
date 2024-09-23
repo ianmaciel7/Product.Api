@@ -2,5 +2,5 @@
 
 namespace Product.Api.Dtos
 {
-    public record FindCategoryOutputModel(int CategoryId, string Name, IEnumerable<Uri> Products) : IOutputModel<Entities.Product>;
+    public record FindCategoryOutputModel(int CategoryId, string Name, IEnumerable<Uri> SubCategories, IEnumerable<Uri> Products,Uri Parent) : IOutputModel<Entities.Product>;
 }

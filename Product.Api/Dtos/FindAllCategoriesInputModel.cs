@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Product.Api.Dtos
 {
-    public record FindAllCategoriesInputModel([FromRoute]int? CategoryId) : IFindCategoriesInputModel
+    public record FindAllCategoriesInputModel([FromQuery]int? CategoryId) : IFindCategoriesInputModel
     {
     }
 }

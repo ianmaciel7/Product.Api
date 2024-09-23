@@ -1,4 +1,4 @@
-﻿using Product.Api.Data.Entities.Categories;
+﻿using Product.Api.Data.Entities;
 using Product.Api.Dtos;
 using Product.Api.Repositories.Base;
 
