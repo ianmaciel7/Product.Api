@@ -7,6 +7,6 @@ namespace Product.Api.Repositories
     public interface ICategoryRepository : IRepository
     {
         IEnumerable<Category> FindAll(FindAllCategoriesInputModel? inputModel = null);
-        Category? FindAll(FindCategoryInputModel? inputModel = null);
+        Category? Find(FindCategoryInputModel? inputModel = null);
     }
 }

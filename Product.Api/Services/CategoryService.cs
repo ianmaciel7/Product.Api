@@ -17,7 +17,7 @@ namespace Product.Api.Services
 
         public FindCategoryOutputModel Find(FindCategoryInputModel inputModel)
         {
-            var category = categoryRepository.FindAll(inputModel);
+            var category = categoryRepository.Find(inputModel);
             return mapper.Map<FindCategoryOutputModel>(category, options =>
             {
                 options.Items["urlService"] = urlService;

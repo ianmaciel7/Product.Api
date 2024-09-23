@@ -6,7 +6,7 @@ namespace Product.Api.Repositories
 {
     public class CategoryRepository(ApplicationDbContext dbContext) : ICategoryRepository
     {
-        public Category? FindAll(FindCategoryInputModel? inputModel = null)
+        public Category? Find(FindCategoryInputModel? inputModel = null)
         {
             var entities = dbContext.Categories;
 
