@@ -1,6 +1,7 @@
 ﻿using Product.Api.Data;
 using Product.Api.Data.Entities;
 using Product.Api.Dtos;
+using Product.Api.Repositories.Extensions;
 
 namespace Product.Api.Repositories
 {
@@ -8,26 +9,12 @@ namespace Product.Api.Repositories
     {
         public Category? Find(FindCategoryInputModel? inputModel = null)
         {
-            var entities = dbContext.Categories;
-
-            if (inputModel is null)
-            {
-                return null;
-            }
-
-            return entities.Find(inputModel.CategoryId);
+            return dbContext.Categories.Find(inputModel?.CategoryId);
         }
 
         public IEnumerable<Category> FindAll(FindAllCategoriesInputModel? inputModel = null)
         {
-            var entities = dbContext.Categories;
-
-            if (inputModel == null || inputModel.CategoryId == null)
-            {
-                return entities.Where(e => e.ParentId == null);
-            }
-
-            return entities.Where(e => e.CategoryId == inputModel.CategoryId);
+            return dbContext.Categories.FindAll(inputModel?.CategoryId);
         }
     }
 }
