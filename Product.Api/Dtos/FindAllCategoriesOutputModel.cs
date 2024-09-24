@@ -3,9 +3,9 @@ using System.Collections;
 
 namespace Product.Api.Dtos
 {
-    public record FindAllCategoriesOutputModel(IEnumerable<FindCategoryOutputModel> Categories) : IEnumerableOutputModel<FindCategoryOutputModel>
+    public record FindAllCategoriesOutputModel(IEnumerable<IFindCategoryOutputModel> Categories) : IFindAllCategoriesOutputModel 
     {
-        public IEnumerator<FindCategoryOutputModel> GetEnumerator()
+        public IEnumerator<IFindCategoryOutputModel> GetEnumerator()
         {
             return Categories.GetEnumerator();
         }

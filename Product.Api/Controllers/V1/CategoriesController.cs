@@ -16,10 +16,17 @@ namespace Product.Api.Controllers.V1
             return Ok(categories);
         }
 
-        [HttpGet("/{CategoryId:int}", Name = GET_CATEGORY)]
+        [HttpGet("{CategoryId:int}", Name = GET_CATEGORY)]
         public IActionResult Get(FindCategoryInputModel inputModel)
         {
             var categories = categoryService.Find(inputModel);
+            return Ok(categories);
+        }
+
+        [HttpPost(Name = POST_CATEGORY)]
+        public IActionResult Post([FromBody] AddCategoryInputModel inputModel)
+        {
+            var categories = categoryService.Add(inputModel);
             return Ok(categories);
         }
     }

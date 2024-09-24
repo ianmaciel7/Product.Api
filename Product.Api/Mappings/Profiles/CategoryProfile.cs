@@ -9,16 +9,18 @@ namespace Product.Api.Mappings.Profiles
     {
         public CategoryProfile()
         {
-            CreateMap<Category, FindAllCategoriesInputModel>();
-            CreateMap<Category, FindAllCategoriesOutputModel>();
             CreateMap<Category, FindCategoryOutputModel>()
                 .ForCtorParam("CategoryId", opt => opt.MapFrom(src => src.CategoryId))
                 .ForCtorParam("Name", opt => opt.MapFrom(src => src.Name))
                 .ForCtorParam("Products", opt => opt.MapFrom(src => src.Products))
-                .ForCtorParam("SubCategories", opt => opt.MapFrom(src => src.SubCategories))
-                .ForCtorParam("Parent", opt => opt.MapFrom((src,context) => MapByUri(src.Parent, context)));
-            CreateMap<IEnumerable<Category>, FindAllCategoriesOutputModel>().ForCtorParam("Categories", opt => opt.MapFrom(src => src));
-            CreateMap<Category, Uri?>().ConstructUsing(MapByUri);    
+                .ForCtorParam("Children", opt => opt.MapFrom(src => src.Children))
+                .ForCtorParam("Parent", opt => opt.MapFrom((src, context) => MapByUri(src.Parent, context)));
+            CreateMap<AddCategoryInputModel, Category>();
+
+            CreateMap<IEnumerable<Category>, FindAllCategoriesOutputModel>()
+                .ForCtorParam("Categories", opt => opt.MapFrom((src,cotext) => cotext.Mapper.Map<IEnumerable<FindCategoryOutputModel>>(src)));
+
+            CreateMap<Category, Uri?>().ConstructUsing(MapByUri);
         }
 
         private Uri? MapByUri(Category? category, ResolutionContext context)

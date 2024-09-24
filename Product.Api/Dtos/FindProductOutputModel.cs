@@ -2,7 +2,7 @@
 
 namespace Product.Api.Dtos
 {
-    public record FindProductOutputModel(int ProductId, string Name, string Description, decimal Price, Uri Category) : IOutputModel<Entities.Product>
+    public record FindProductOutputModel(int ProductId,string Name, decimal Price, string Description, Uri? Category) : IFindProductOutputModel, IAddProductOutputModel
     {
 
     }

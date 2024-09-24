@@ -1,6 +1,8 @@
-﻿namespace Product.Api.Dtos
+﻿using Product.Api.Dtos.Base;
+
+namespace Product.Api.Dtos
 {
-    public record FindProductInputModel(int? ProductId) : IFindProductsInputModel
+    public record FindProductInputModel(int ProductId) : IFindProductInputModel
     {
     }
 }

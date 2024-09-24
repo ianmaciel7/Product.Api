@@ -1,10 +1,12 @@
 ﻿using Product.Api.Dtos;
+using Product.Api.Dtos.Base;
 
 namespace Product.Api.Services
 {
     public interface IProductService
     {
-        FindAllProductsOutputModel FindAll(FindAllProductsInputModel inputModel);
-        FindProductOutputModel Find(FindProductInputModel inputModel);
+        IFindAllProductsOutputModel FindAll(IFindAllProductsInputModel inputModel);
+        IFindProductOutputModel Find(IFindProductInputModel inputModel);
+        IAddProductOutputModel Add(IAddProductInputModel inputModel);
     }
 }

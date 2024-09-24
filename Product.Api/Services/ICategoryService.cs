@@ -1,10 +1,12 @@
 ﻿using Product.Api.Dtos;
+using Product.Api.Dtos.Base;
 
 namespace Product.Api.Services
 {
     public interface ICategoryService
     {
-        FindAllCategoriesOutputModel FindAll(FindAllCategoriesInputModel inputModel);
-        FindCategoryOutputModel Find(FindCategoryInputModel inputModel);
+        IFindAllCategoriesOutputModel FindAll(IFindAllCategoriesInputModel inputModel);
+        IFindCategoryOutputModel Find(IFindCategoryInputModel inputModel);
+        IAddCategoryOutputModel Add(IAddCategoryInputModel inputModel);
     }
 }

@@ -21,5 +21,12 @@ namespace Product.Api.Controllers.V1
             var products = productService.Find(inputModel);
             return Ok(products);
         }
+
+        [HttpPost(Name = POST_PRODUCT)]
+        public IActionResult Post([FromBody] AddProductInputModel inputModel)
+        {
+            var products = productService.Add(inputModel);
+            return Ok(products);
+        }
     }
 }

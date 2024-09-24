@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Product.Api.Dtos.Base;
 
 namespace Product.Api.Dtos
 {
-    public record FindCategoryInputModel([FromRoute]int CategoryId) : IFindCategoriesInputModel
+    public record FindCategoryInputModel([FromRoute]int CategoryId) : IFindCategoryInputModel
     {
-        int? IFindCategoriesInputModel.CategoryId => CategoryId;
+       
     }
 }
