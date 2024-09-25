@@ -7,7 +7,7 @@ using Product.Api.Repositories;
 
 namespace Product.Api.Services
 {
-    internal class ProductService(IUrlService urlService,IMapper mapper,IProductRepository productRepository) : IProductService
+    internal class ProductService(IUrlService urlService, IMapper mapper, IProductRepository productRepository) : IProductService
     {
         public IFindProductOutputModel Find(IFindProductInputModel inputModel)
         {
@@ -28,6 +28,15 @@ namespace Product.Api.Services
             productRepository.Add(product);
             productRepository.SaveChanges();
             return mapper.Map<FindProductOutputModel>(product, urlService);
+        }
+
+        public IRemoveProductOutputModel Remove(IRemoveProductInputModel inputModel)
+        {
+            var product = productRepository.FindById(inputModel.ProductId);
+            Guard.IsNotNull(product);
+            productRepository.Remove(product);
+            productRepository.SaveChanges();
+            return new RemoveProductOutputModel();
         }
     }
 }

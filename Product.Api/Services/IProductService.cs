@@ -8,5 +8,6 @@ namespace Product.Api.Services
         IFindAllProductsOutputModel FindAll(IFindAllProductsInputModel inputModel);
         IFindProductOutputModel Find(IFindProductInputModel inputModel);
         IAddProductOutputModel Add(IAddProductInputModel inputModel);
+        IRemoveProductOutputModel Remove(IRemoveProductInputModel inputModel);
     }
 }

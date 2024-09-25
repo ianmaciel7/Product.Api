@@ -28,5 +28,12 @@ namespace Product.Api.Controllers.V1
             var products = productService.Add(inputModel);
             return Ok(products);
         }
+
+        [HttpDelete("{ProductId:int}", Name = DELETE_PRODUCT)]
+        public IActionResult Delete(RemoveProductInputModel inputModel)
+        {
+            var categories = productService.Remove(inputModel);
+            return Ok(categories);
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace Product.Api.Dtos
             IEnumerable<Uri> Products,
             Uri Parent
         ) : IFindCategoryOutputModel,
-            IAddCategoryOutputModel;
+            IAddCategoryOutputModel,
+            IRemoveCategoryOuputModel;
 }

@@ -32,5 +32,14 @@ namespace Product.Api.Services
             categoryRepository.SaveChanges();
             return mapper.Map<FindCategoryOutputModel>(category, urlService);
         }
+
+        public IRemoveCategoryOuputModel Remove(IRemoveCategoryInputModel inputModel)
+        {
+            var category = categoryRepository.FindById(inputModel.CategoryId);
+            Guard.IsNotNull(category);
+            categoryRepository.Remove(category);
+            categoryRepository.SaveChanges();
+            return new RemoveCategoryOuputModel();
+        }
     }
 }

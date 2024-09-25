@@ -8,20 +8,20 @@ namespace Product.Api.Repositories.Base
         protected readonly DbContext dbContext = dbContext;
         protected DbSet<T> _dbset = dbContext.Set<T>();
 
-        public T? FindById(int categoryId)
+        public T? FindById(int id)
         {
-            return _dbset.Find(categoryId);
+            return _dbset.Find(id);
         }
 
-        public IEnumerable<T> FindAllById(int? categoryId = null)
+        public IEnumerable<T> FindAllById(int? id = null)
         {
-            return _dbset.FindAll(categoryId);
+            return _dbset.FindAll(id);
         }
 
-        public void Add(T category)
+        public void Add(T entity)
         {
-            _dbset.Add(category);
-            var entry = _dbset.Entry(category);
+            _dbset.Add(entity);
+            var entry = _dbset.Entry(entity);
             foreach (var navigation in entry.Navigations)
             {
                 navigation.Load();
@@ -31,6 +31,11 @@ namespace Product.Api.Repositories.Base
         public void SaveChanges()
         {
             dbContext.SaveChanges();
+        }
+
+        public void Remove(T entity)
+        {
+            _dbset.Remove(entity);
         }
     }
 }

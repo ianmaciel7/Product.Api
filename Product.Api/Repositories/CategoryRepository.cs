@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Product.Api.Data;
+﻿using Product.Api.Data;
 using Product.Api.Data.Entities;
 using Product.Api.Repositories.Base;
 

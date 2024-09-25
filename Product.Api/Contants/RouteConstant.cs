@@ -8,5 +8,7 @@
         public const string GET_PRODUCT = "GetProduct";
         public const string POST_PRODUCT = "PostProduct";
         public const string POST_CATEGORY = "PostCategory";
+        public const string DELETE_CATEGORY = "DeleteCategory";
+        public const string DELETE_PRODUCT = "DeleteProduct";
     }
 }

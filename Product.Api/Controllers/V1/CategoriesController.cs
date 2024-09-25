@@ -29,5 +29,12 @@ namespace Product.Api.Controllers.V1
             var categories = categoryService.Add(inputModel);
             return Ok(categories);
         }
+
+        [HttpDelete("{CategoryId:int}", Name = DELETE_CATEGORY)]
+        public IActionResult Delete(RemoveCategoryInputModel inputModel)
+        {
+            var categories = categoryService.Remove(inputModel);
+            return Ok(categories);
+        }
     }
 }

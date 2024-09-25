@@ -8,5 +8,6 @@ namespace Product.Api.Services
         IFindAllCategoriesOutputModel FindAll(IFindAllCategoriesInputModel inputModel);
         IFindCategoryOutputModel Find(IFindCategoryInputModel inputModel);
         IAddCategoryOutputModel Add(IAddCategoryInputModel inputModel);
+        IRemoveCategoryOuputModel Remove(IRemoveCategoryInputModel inputModel);
     }
 }
