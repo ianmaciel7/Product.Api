@@ -9,6 +9,6 @@ namespace Product.Api.Repositories
         Entities.Product? FindById(int productId);
         void Add(Entities.Product product);
         void SaveChanges();
-        void Remove(Entities.Product product);
+        void Update(Entities.Product product);
     }
 }

@@ -37,7 +37,7 @@ namespace Product.Api.Services
         {
             var category = categoryRepository.FindById(inputModel.CategoryId);
             Guard.IsNotNull(category);
-            categoryRepository.Remove(category);
+            categoryRepository.Update(category);
             categoryRepository.SaveChanges();
             return new RemoveCategoryOuputModel();
         }

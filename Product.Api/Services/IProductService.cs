@@ -1,5 +1,4 @@
-﻿using Product.Api.Dtos;
-using Product.Api.Dtos.Base;
+﻿using Product.Api.Dtos.Base;
 
 namespace Product.Api.Services
 {
@@ -9,5 +8,6 @@ namespace Product.Api.Services
         IFindProductOutputModel Find(IFindProductInputModel inputModel);
         IAddProductOutputModel Add(IAddProductInputModel inputModel);
         IRemoveProductOutputModel Remove(IRemoveProductInputModel inputModel);
+        IUpdateProductOutputModel Update(IUpdateProductInputModel inputModel);
     }
 }

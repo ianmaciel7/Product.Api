@@ -2,4 +2,6 @@
 using Product.Api.Repositories;
 using Product.Api.Repositories.Base;
 
-internal class ProductRepository(ApplicationDbContext dbContext) : Repository<Entities.Product>(dbContext),IProductRepository;
+internal class ProductRepository(ApplicationDbContext dbContext) : Repository<Entities.Product>(dbContext), IProductRepository
+{
+}

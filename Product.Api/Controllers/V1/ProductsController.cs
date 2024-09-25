@@ -35,5 +35,12 @@ namespace Product.Api.Controllers.V1
             var categories = productService.Remove(inputModel);
             return Ok(categories);
         }
+
+        [HttpPut("{ProductId:int}", Name = PUT_PRODUCT)]
+        public IActionResult Put(UpdateProductInputModel inputModel)
+        {
+            var categories = productService.Update(inputModel);
+            return Ok(categories);
+        }
     }
 }

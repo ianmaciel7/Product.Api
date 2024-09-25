@@ -34,9 +34,17 @@ namespace Product.Api.Services
         {
             var product = productRepository.FindById(inputModel.ProductId);
             Guard.IsNotNull(product);
-            productRepository.Remove(product);
+            productRepository.Update(product);
             productRepository.SaveChanges();
             return new RemoveProductOutputModel();
+        }
+
+        public IUpdateProductOutputModel Update(IUpdateProductInputModel inputModel)
+        {
+            var product = mapper.Map<Entities.Product>(inputModel);
+            productRepository.Update(product);
+            productRepository.SaveChanges();
+            return mapper.Map<FindProductOutputModel>(product, urlService);
         }
     }
 }

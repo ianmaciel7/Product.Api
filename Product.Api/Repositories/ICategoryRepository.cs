@@ -9,6 +9,6 @@ namespace Product.Api.Repositories
         Category? FindById(int categoryId);
         void Add(Category category);
         void SaveChanges();
-        void Remove(Category category);
+        void Update(Category category);
     }
 }

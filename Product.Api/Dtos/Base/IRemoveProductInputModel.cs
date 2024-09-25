@@ -1,4 +1,4 @@
-﻿namespace Product.Api.Dtos
+﻿namespace Product.Api.Dtos.Base
 {
     public interface IRemoveProductInputModel
     {

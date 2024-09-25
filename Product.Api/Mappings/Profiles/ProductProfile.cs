@@ -16,6 +16,7 @@ namespace Product.Api.Mappings.Profiles
                .ForCtorParam("Category", opt => opt.MapFrom(src => src.Category))
                .ForCtorParam("Price", opt => opt.MapFrom(src => src.Price));
             CreateMap<AddProductInputModel, Entities.Product>();
+            CreateMap<UpdateProductInputModel, Entities.Product>();
 
             CreateMap<IEnumerable<Entities.Product>, FindAllProductsOutputModel>()
                 .ForCtorParam("Products", opt => opt.MapFrom((src, context) => context.Mapper.Map<IEnumerable<FindProductOutputModel>>(src)));
