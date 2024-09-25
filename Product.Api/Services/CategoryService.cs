@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
+using CommunityToolkit.Diagnostics;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Product.Api.Data.Entities;
 using Product.Api.Dtos;
 using Product.Api.Dtos.Base;
+using Product.Api.Mappings.Extensions;
 using Product.Api.Repositories;
+using System;
 
 namespace Product.Api.Services
 {
@@ -11,19 +15,14 @@ namespace Product.Api.Services
         public IFindAllCategoriesOutputModel FindAll(IFindAllCategoriesInputModel inputModel)
         {
             var categories = categoryRepository.FindAllById(inputModel?.CategoryId);
-            return mapper.Map<FindAllCategoriesOutputModel>(categories, options =>
-            {
-                options.Items["urlService"] = urlService;
-            });
+            return mapper.Map<FindAllCategoriesOutputModel>(categories, urlService);
         }
 
         public IFindCategoryOutputModel Find(IFindCategoryInputModel inputModel)
         {
             var category = categoryRepository.FindById(inputModel.CategoryId);
-            return mapper.Map<FindCategoryOutputModel>(category, options =>
-            {
-                options.Items["urlService"] = urlService;
-            });
+            Guard.IsNotNull(category);
+            return mapper.Map<FindCategoryOutputModel>(category, urlService);
         }
 
         public IAddCategoryOutputModel Add(IAddCategoryInputModel inputModel)
@@ -31,10 +30,7 @@ namespace Product.Api.Services
             var category = mapper.Map<Category>(inputModel);
             categoryRepository.Add(category);
             categoryRepository.SaveChanges();
-            return mapper.Map<FindCategoryOutputModel>(category, options =>
-            {
-                options.Items["urlService"] = urlService;
-            });
+            return mapper.Map<FindCategoryOutputModel>(category, urlService);
         }
     }
 }

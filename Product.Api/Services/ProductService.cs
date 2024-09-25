@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using CommunityToolkit.Diagnostics;
 using Product.Api.Dtos;
 using Product.Api.Dtos.Base;
+using Product.Api.Mappings.Extensions;
 using Product.Api.Repositories;
 
 namespace Product.Api.Services
@@ -10,19 +12,14 @@ namespace Product.Api.Services
         public IFindProductOutputModel Find(IFindProductInputModel inputModel)
         {
             var product = productRepository.FindById(inputModel.ProductId);
-            return mapper.Map<FindProductOutputModel>(product, options =>
-            {
-                options.Items["urlService"] = urlService;
-            });
+            Guard.IsNotNull(product);
+            return mapper.Map<FindProductOutputModel>(product, urlService);
         }
 
         public IFindAllProductsOutputModel FindAll(IFindAllProductsInputModel inputModel)
         {
             var products = productRepository.FindAllById(inputModel?.ProductId).ToList();
-            return mapper.Map<FindAllProductsOutputModel>(products, options =>
-            {
-                options.Items["urlService"] = urlService;
-            });
+            return mapper.Map<FindAllProductsOutputModel>(products, urlService);
         }
 
         public IAddProductOutputModel Add(IAddProductInputModel inputModel)
@@ -30,10 +27,7 @@ namespace Product.Api.Services
             var product = mapper.Map<Entities.Product>(inputModel);
             productRepository.Add(product);
             productRepository.SaveChanges();
-            return mapper.Map<FindProductOutputModel>(product, options =>
-            {
-                options.Items["urlService"] = urlService;
-            });
+            return mapper.Map<FindProductOutputModel>(product, urlService);
         }
     }
 }
