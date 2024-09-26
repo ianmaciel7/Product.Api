@@ -18,8 +18,7 @@ namespace Product.Api.Services
 
         public IFindAllProductsOutputModel FindAll(IFindAllProductsInputModel inputModel)
         {
-            var products = productRepository.FindAllById(inputModel?.ProductId).ToList();
-            return mapper.Map<FindAllProductsOutputModel>(products, urlService);
+            return FindAllById<FindAllProductsOutputModel>(inputModel.ProductId);
         }
 
         public IAddProductOutputModel Add(IAddProductInputModel inputModel)

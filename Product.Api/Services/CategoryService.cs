@@ -19,9 +19,8 @@ namespace Product.Api.Services
         }
 
         public IFindAllCategoriesOutputModel FindAll(IFindAllCategoriesInputModel inputModel)
-        {
-            var categories = categoryRepository.FindAllById(inputModel?.CategoryId);
-            return mapper.Map<FindAllCategoriesOutputModel>(categories, urlService);
+        {           
+            return FindAllById<FindAllCategoriesOutputModel>(inputModel.CategoryId);
         }
 
         public IAddCategoryOutputModel Add(IAddCategoryInputModel inputModel)

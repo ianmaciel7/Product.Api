@@ -17,5 +17,11 @@ namespace Product.Api.Services
             Guard.IsNotNull(entity);
             return mapper.Map<TResult>(entity, urlService);
         }
+
+        public TResult FindAllById<TResult>(int? id)
+        {
+            var categories = _repository.FindAllById(id);
+            return mapper.Map<TResult>(categories, urlService);
+        }
     }
 }
