@@ -2,7 +2,7 @@
 
 namespace Product.Api.Services
 {
-    public interface IProductService
+    public interface IProductService : IService
     {
         IFindAllProductsOutputModel FindAll(IFindAllProductsInputModel inputModel);
         IFindProductOutputModel Find(IFindProductInputModel inputModel);

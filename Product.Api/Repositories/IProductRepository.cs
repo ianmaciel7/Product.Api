@@ -1,9 +1,8 @@
-﻿using Product.Api.Dtos.Base;
-using Product.Api.Repositories.Base;
+﻿using Product.Api.Repositories.Base;
 
 namespace Product.Api.Repositories
 {
-    public interface IProductRepository : IRepository
+    public interface IProductRepository : IRepository<Entities.Product>
     {
         IEnumerable<Entities.Product> FindAllById(int? productId = null);
         Entities.Product? FindById(int productId);

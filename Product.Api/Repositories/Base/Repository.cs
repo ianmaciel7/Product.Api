@@ -47,6 +47,5 @@ namespace Product.Api.Repositories.Base
         {
             _dbset.Remove(entity);
         }
-
     }
 }

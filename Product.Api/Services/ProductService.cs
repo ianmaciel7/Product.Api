@@ -7,13 +7,13 @@ using Product.Api.Repositories;
 
 namespace Product.Api.Services
 {
-    internal class ProductService(IUrlService urlService, IMapper mapper, IProductRepository productRepository) : IProductService
+    internal class ProductService(IUrlService urlService, IProductRepository productRepository, IMapper mapper) 
+        : Service<Entities.Product>(urlService,productRepository,mapper), 
+        IProductService
     {
         public IFindProductOutputModel Find(IFindProductInputModel inputModel)
         {
-            var product = productRepository.FindById(inputModel.ProductId);
-            Guard.IsNotNull(product);
-            return mapper.Map<FindProductOutputModel>(product, urlService);
+            return FindById<FindProductOutputModel>(inputModel.ProductId);
         }
 
         public IFindAllProductsOutputModel FindAll(IFindAllProductsInputModel inputModel)
