@@ -9,5 +9,6 @@ namespace Product.Api.Repositories
         void Add(Entities.Product product);
         void SaveChanges();
         void Update(Entities.Product product);
+        void Remove(Entities.Product product);
     }
 }

@@ -28,11 +28,7 @@ namespace Product.Api.Services
 
         public IRemoveProductOutputModel Remove(IRemoveProductInputModel inputModel)
         {
-            var product = productRepository.FindById(inputModel.ProductId);
-            Guard.IsNotNull(product);
-            productRepository.Update(product);
-            productRepository.SaveChanges();
-            return new RemoveProductOutputModel();
+            return base.RemoveById<RemoveProductOutputModel>(inputModel.ProductId);
         }
 
         public IUpdateProductOutputModel Update(IUpdateProductInputModel inputModel)

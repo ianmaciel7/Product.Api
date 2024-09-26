@@ -35,5 +35,14 @@ namespace Product.Api.Services
             _repository.SaveChanges();
             return mapper.Map<TResult>(entity, urlService);
         }
+
+        public TResult RemoveById<TResult>(int id) where TResult : new()
+        {
+            var entity = _repository.FindById(id);
+            Guard.IsNotNull(entity);
+            _repository.Remove(entity);
+            _repository.SaveChanges();
+            return new TResult();
+        }
     }
 }

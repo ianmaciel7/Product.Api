@@ -29,11 +29,7 @@ namespace Product.Api.Services
 
         public IRemoveCategoryOuputModel Remove(IRemoveCategoryInputModel inputModel)
         {
-            var category = categoryRepository.FindById(inputModel.CategoryId);
-            Guard.IsNotNull(category);
-            categoryRepository.Update(category);
-            categoryRepository.SaveChanges();
-            return new RemoveCategoryOuputModel();
+            return base.RemoveById<RemoveCategoryOuputModel>(inputModel.CategoryId);
         }
     }
 }

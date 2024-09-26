@@ -10,5 +10,6 @@ namespace Product.Api.Repositories
         void Add(Category category);
         void SaveChanges();
         void Update(Category category);
+        void Remove(Category category);
     }
 }
