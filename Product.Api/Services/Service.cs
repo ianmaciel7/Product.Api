@@ -3,6 +3,9 @@ using CommunityToolkit.Diagnostics;
 using Product.Api.Repositories.Base;
 using AutoMapper;
 using Product.Api.Mappings.Extensions;
+using Product.Api.Dtos.Base;
+using Product.Api.Dtos;
+using Product.Api.Repositories;
 
 namespace Product.Api.Services
 {
@@ -20,8 +23,17 @@ namespace Product.Api.Services
 
         public TResult FindAllById<TResult>(int? id)
         {
-            var categories = _repository.FindAllById(id);
-            return mapper.Map<TResult>(categories, urlService);
+            var entity = _repository.FindAllById(id);
+            return mapper.Map<TResult>(entity, urlService);
+        }
+
+        public TResult Add<TResult>(object inputModel)
+        {
+            var entity = mapper.Map<T>(inputModel);
+            Guard.IsNotNull(entity);
+            _repository.Add(entity);
+            _repository.SaveChanges();
+            return mapper.Map<TResult>(entity, urlService);
         }
     }
 }

@@ -3,7 +3,6 @@ using CommunityToolkit.Diagnostics;
 using Product.Api.Data.Entities;
 using Product.Api.Dtos;
 using Product.Api.Dtos.Base;
-using Product.Api.Mappings.Extensions;
 using Product.Api.Repositories;
 
 namespace Product.Api.Services
@@ -25,10 +24,7 @@ namespace Product.Api.Services
 
         public IAddCategoryOutputModel Add(IAddCategoryInputModel inputModel)
         {
-            var category = mapper.Map<Category>(inputModel);
-            categoryRepository.Add(category);
-            categoryRepository.SaveChanges();
-            return mapper.Map<FindCategoryOutputModel>(category, urlService);
+            return base.Add<FindCategoryOutputModel>(inputModel);
         }
 
         public IRemoveCategoryOuputModel Remove(IRemoveCategoryInputModel inputModel)

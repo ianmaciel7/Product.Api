@@ -23,10 +23,7 @@ namespace Product.Api.Services
 
         public IAddProductOutputModel Add(IAddProductInputModel inputModel)
         {
-            var product = mapper.Map<Entities.Product>(inputModel);
-            productRepository.Add(product);
-            productRepository.SaveChanges();
-            return mapper.Map<FindProductOutputModel>(product, urlService);
+            return base.Add<FindProductOutputModel>(inputModel);
         }
 
         public IRemoveProductOutputModel Remove(IRemoveProductInputModel inputModel)
