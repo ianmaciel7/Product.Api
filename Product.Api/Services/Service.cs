@@ -3,9 +3,6 @@ using CommunityToolkit.Diagnostics;
 using Product.Api.Repositories.Base;
 using AutoMapper;
 using Product.Api.Mappings.Extensions;
-using Product.Api.Dtos.Base;
-using Product.Api.Dtos;
-using Product.Api.Repositories;
 
 namespace Product.Api.Services
 {

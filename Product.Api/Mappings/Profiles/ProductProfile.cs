@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Product.Api.Dtos;
+using Product.Api.Dtos.Base;
 using Product.Api.Services;
 
 namespace Product.Api.Mappings.Profiles
@@ -8,11 +9,12 @@ namespace Product.Api.Mappings.Profiles
     {
         public ProductProfile()
         {
+            
             CreateMap<Entities.Product, FindProductOutputModel>()
                .ForCtorParam("ProductId", opt => opt.MapFrom(src => src.ProductId))
                .ForCtorParam("Name", opt => opt.MapFrom(src => src.Name))
                .ForCtorParam("Description", opt => opt.MapFrom(src => src.Description))
-               .ForCtorParam("Category", opt => opt.MapFrom((src,context) => context.Mapper.Map<FindCategoryOutputModel>(src.Category)))
+               .ForCtorParam("Category", opt => opt.MapFrom((src,context) => context.Mapper.Map<IFindCategoryOutputModel>(src.Category)))
                .ForCtorParam("Price", opt => opt.MapFrom(src => src.Price));
             CreateMap<AddProductInputModel, Entities.Product>();
             CreateMap<UpdateProductInputModel, Entities.Product>();
