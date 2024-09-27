@@ -6,6 +6,6 @@
         string Name { get; }
         IEnumerable<Uri> Children { get; }
         IEnumerable<Uri> Products { get; }
-        Uri Parent { get; }
+        IFindCategoryOutputModel Parent { get; }
     }
 }

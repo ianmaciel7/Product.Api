@@ -7,7 +7,7 @@ namespace Product.Api.Dtos
             string Name, 
             IEnumerable<Uri> Children,
             IEnumerable<Uri> Products,
-            Uri Parent
+            IFindCategoryOutputModel Parent
         ) : IFindCategoryOutputModel,
             IAddCategoryOutputModel,
             IRemoveCategoryOuputModel;
