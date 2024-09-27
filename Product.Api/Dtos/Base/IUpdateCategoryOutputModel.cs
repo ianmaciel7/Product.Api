@@ -1,6 +1,6 @@
 ﻿namespace Product.Api.Dtos.Base
 {
-    public interface IUpdateCategoryOutputModel : IFindProductOutputModel
+    public interface IUpdateCategoryOutputModel : IFindCategoryOutputModel
     {
     }
 }
