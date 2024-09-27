@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Product.Api.Data.Entities;
 using Product.Api.Dtos;
+using Product.Api.Dtos.Base;
 using Product.Api.Services;
 
 namespace Product.Api.Mappings.Profiles

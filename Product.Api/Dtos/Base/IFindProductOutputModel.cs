@@ -6,6 +6,6 @@
         public string Name { get; }
         public decimal Price { get; }
         public string Description { get; }
-        public Uri? Category { get; }
+        public IFindCategoryOutputModel? Category { get; }
     }
 }
