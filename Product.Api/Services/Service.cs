@@ -33,13 +33,13 @@ namespace Product.Api.Services
             return mapper.Map<TResult>(entity, urlService);
         }
 
-        public TResult RemoveById<TResult>(int id) where TResult : new()
+        public TResult RemoveById<TResult>(int id)
         {
             var entity = _repository.FindById(id);
             Guard.IsNotNull(entity);
             _repository.Remove(entity);
             _repository.SaveChanges();
-            return new TResult();
+            return mapper.Map<TResult>(entity, urlService);
         }
     }
 }

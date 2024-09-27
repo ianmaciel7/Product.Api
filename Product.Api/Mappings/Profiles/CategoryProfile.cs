@@ -10,6 +10,8 @@ namespace Product.Api.Mappings.Profiles
     {
         public CategoryProfile()
         {
+            CreateMap<IEnumerable<Category>, FindAllCategoriesOutputModel>()
+               .ForCtorParam("Categories", opt => opt.MapFrom((src, cotext) => cotext.Mapper.Map<IEnumerable<IFindCategoryOutputModel>>(src)));
             CreateMap<Category, FindCategoryOutputModel>()
                 .ForCtorParam("CategoryId", opt => opt.MapFrom(src => src.CategoryId))
                 .ForCtorParam("Name", opt => opt.MapFrom(src => src.Name))
@@ -17,12 +19,12 @@ namespace Product.Api.Mappings.Profiles
                 .ForCtorParam("Children", opt => opt.MapFrom(src => src.Children))
                 .ForCtorParam("Parent", opt => opt.MapFrom((src, context) => context.Mapper.Map<IFindCategoryOutputModel>(src.Parent)));
             CreateMap<Category, IFindCategoryOutputModel>().As<FindCategoryOutputModel>();
-            CreateMap<AddCategoryInputModel, Category>();
-
-            CreateMap<IEnumerable<Category>, FindAllCategoriesOutputModel>()
-                .ForCtorParam("Categories", opt => opt.MapFrom((src,cotext) => cotext.Mapper.Map<IEnumerable<FindCategoryOutputModel>>(src)));
-
+            CreateMap<Category, IAddCategoryOutputModel>().As<FindCategoryOutputModel>();
+            CreateMap<Category, IUpdateCategoryOutputModel>().As<FindCategoryOutputModel>();
+            CreateMap<Category, IRemoveCategoryOuputModel>().As<FindCategoryOutputModel>();
             CreateMap<Category, Uri?>().ConstructUsing(MapByUri);
+            CreateMap<IEnumerable<Category>, IFindAllCategoriesOutputModel>().As<FindAllCategoriesOutputModel>();
+            CreateMap<AddCategoryInputModel, Category>();
         }
 
         private Uri? MapByUri(Category? category, ResolutionContext context)

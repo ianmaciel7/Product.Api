@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Product.Api.Dtos;
 using Product.Api.Dtos.Base;
 using Product.Api.Mappings.Extensions;
 using Product.Api.Repositories;
@@ -12,22 +11,22 @@ namespace Product.Api.Services
     {
         public IFindProductOutputModel Find(IFindProductInputModel inputModel)
         {
-            return FindById<FindProductOutputModel>(inputModel.ProductId);
+            return FindById<IFindProductOutputModel>(inputModel.ProductId);
         }
 
         public IFindAllProductsOutputModel FindAll(IFindAllProductsInputModel inputModel)
         {
-            return FindAllById<FindAllProductsOutputModel>(inputModel.ProductId);
+            return FindAllById<IFindAllProductsOutputModel>(inputModel.ProductId);
         }
 
         public IAddProductOutputModel Add(IAddProductInputModel inputModel)
         {
-            return base.Add<FindProductOutputModel>(inputModel);
+            return base.Add<IAddProductOutputModel>(inputModel);
         }
 
         public IRemoveProductOutputModel Remove(IRemoveProductInputModel inputModel)
         {
-            return base.RemoveById<RemoveProductOutputModel>(inputModel.ProductId);
+            return base.RemoveById<IRemoveProductOutputModel>(inputModel.ProductId);
         }
 
         public IUpdateProductOutputModel Update(IUpdateProductInputModel inputModel)
@@ -35,7 +34,7 @@ namespace Product.Api.Services
             var product = mapper.Map<Entities.Product>(inputModel);
             productRepository.Update(product);
             productRepository.SaveChanges();
-            return mapper.Map<FindProductOutputModel>(product, urlService);
+            return mapper.Map<IUpdateProductOutputModel>(product, urlService);
         }
     }
 }

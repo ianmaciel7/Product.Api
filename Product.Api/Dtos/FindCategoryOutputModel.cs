@@ -10,5 +10,6 @@ namespace Product.Api.Dtos
             IFindCategoryOutputModel Parent
         ) : IFindCategoryOutputModel,
             IAddCategoryOutputModel,
-            IRemoveCategoryOuputModel;
+            IRemoveCategoryOuputModel,
+            IUpdateCategoryOutputModel;
 }

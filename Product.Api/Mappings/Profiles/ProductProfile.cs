@@ -16,13 +16,23 @@ namespace Product.Api.Mappings.Profiles
                .ForCtorParam("Description", opt => opt.MapFrom(src => src.Description))
                .ForCtorParam("Category", opt => opt.MapFrom((src,context) => context.Mapper.Map<IFindCategoryOutputModel>(src.Category)))
                .ForCtorParam("Price", opt => opt.MapFrom(src => src.Price));
+            CreateMap<IEnumerable<Entities.Product>, FindAllProductsOutputModel>()
+                .ForCtorParam("Products", opt => opt.MapFrom((src, context) => context.Mapper.Map<IEnumerable<FindProductOutputModel>>(src)));
+
+            CreateMap<Entities.Product, IFindProductOutputModel>().As<FindProductOutputModel>();
+            CreateMap<Entities.Product, IAddProductOutputModel>().As<FindProductOutputModel>();
+            CreateMap<Entities.Product, IUpdateProductOutputModel>().As<FindProductOutputModel>();
+            CreateMap<Entities.Product, IRemoveProductOutputModel>().As<FindProductOutputModel>();
+            CreateMap<Entities.Product, Uri?>().ConstructUsing(MapByUri);
+            CreateMap<IEnumerable<Entities.Product>, IFindAllProductsOutputModel>().As<FindAllProductsOutputModel>();
+
             CreateMap<AddProductInputModel, Entities.Product>();
             CreateMap<UpdateProductInputModel, Entities.Product>();
 
-            CreateMap<IEnumerable<Entities.Product>, FindAllProductsOutputModel>()
-                .ForCtorParam("Products", opt => opt.MapFrom((src, context) => context.Mapper.Map<IEnumerable<FindProductOutputModel>>(src)));
-            CreateMap<Entities.Product, Uri?>()
-                .ConstructUsing(MapByUri);
+
+           
+
+            
 
         }
 

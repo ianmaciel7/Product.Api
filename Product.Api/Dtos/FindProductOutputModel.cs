@@ -10,7 +10,8 @@ namespace Product.Api.Dtos
         IFindCategoryOutputModel? Category
     ) : IFindProductOutputModel, 
         IAddProductOutputModel, 
-        IUpdateProductOutputModel
+        IUpdateProductOutputModel, 
+        IRemoveProductOutputModel
     {
 
     }

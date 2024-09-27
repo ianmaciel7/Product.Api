@@ -14,22 +14,22 @@ namespace Product.Api.Services
 
         public IFindCategoryOutputModel Find(IFindCategoryInputModel inputModel)
         {
-            return FindById<FindCategoryOutputModel>(inputModel.CategoryId);
+            return FindById<IFindCategoryOutputModel>(inputModel.CategoryId);
         }
 
         public IFindAllCategoriesOutputModel FindAll(IFindAllCategoriesInputModel inputModel)
         {           
-            return FindAllById<FindAllCategoriesOutputModel>(inputModel.CategoryId);
+            return FindAllById<IFindAllCategoriesOutputModel>(inputModel.CategoryId);
         }
 
         public IAddCategoryOutputModel Add(IAddCategoryInputModel inputModel)
         {
-            return base.Add<FindCategoryOutputModel>(inputModel);
+            return base.Add<IAddCategoryOutputModel>(inputModel);
         }
 
         public IRemoveCategoryOuputModel Remove(IRemoveCategoryInputModel inputModel)
         {
-            return base.RemoveById<RemoveCategoryOuputModel>(inputModel.CategoryId);
+            return base.RemoveById<IRemoveCategoryOuputModel>(inputModel.CategoryId);
         }
     }
 }

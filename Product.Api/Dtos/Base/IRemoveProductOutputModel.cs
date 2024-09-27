@@ -1,6 +1,6 @@
 ﻿namespace Product.Api.Dtos.Base
 {
-    public interface IRemoveProductOutputModel
+    public interface IRemoveProductOutputModel : IFindProductOutputModel
     {
     }
 }
