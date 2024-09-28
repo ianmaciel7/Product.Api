@@ -1,10 +1,12 @@
-﻿namespace Product.Api.Dtos.Base
+﻿using Product.Api.Data.Entities.ValueObjects;
+
+namespace Product.Api.Dtos.Base
 {
     public interface IAddProductInputModel : IProductInputModel
     {
         string Name { get; }
         decimal Price { get; }
         string Description { get; }
-        int CategoryId { get; }
+        CategoryId CategoryId { get; }
     }
 }

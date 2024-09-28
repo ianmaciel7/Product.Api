@@ -3,17 +3,17 @@ using Product.Api.Repositories.Extensions;
 
 namespace Product.Api.Repositories.Base
 {
-    public class Repository<T>(DbContext dbContext) where T : class
+    public class Repository<T, TId>(DbContext dbContext) where T : class where TId : class
     {
         protected readonly DbContext dbContext = dbContext;
         protected DbSet<T> _dbset = dbContext.Set<T>();
 
-        public virtual T? FindById(int id)
+        public virtual T? FindById(TId id)
         {
             return _dbset.Find(id);
         }
 
-        public virtual IEnumerable<T> FindAllById(int? id = null)
+        public virtual IEnumerable<T> FindAllById(TId? id = null)
         {
             return _dbset.FindAll(id);
         }
@@ -47,5 +47,7 @@ namespace Product.Api.Repositories.Base
         {
             _dbset.Remove(entity);
         }
+
+
     }
 }

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Product.Api.Data;
+using Product.Api.Data.Entities.ValueObjects;
 using Product.Api.Filters;
 using Product.Api.Repositories;
 using Product.Api.Services;
@@ -10,14 +12,21 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+   options.JsonSerializerOptions.Converters.Add(new PrimaryKeyConvert<CategoryId>(e => e.Value));
+   options.JsonSerializerOptions.Converters.Add(new PrimaryKeyConvert<ProductId>(e => e.Value));
+});
 builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(e =>
 {
+    var id = new OpenApiSchema { Type = "integer", Format = "int32" };
     e.OperationFilter<FixSchemaFilter>();
     e.EnableAnnotations();
+    e.MapType<CategoryId>(() => id);
+    e.MapType<ProductId>(() => id);
 });
 builder.Services.AddDbContext<ApplicationDbContext>(
               options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

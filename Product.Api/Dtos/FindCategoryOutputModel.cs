@@ -1,9 +1,10 @@
-﻿using Product.Api.Dtos.Base;
+﻿using Product.Api.Data.Entities.ValueObjects;
+using Product.Api.Dtos.Base;
 
 namespace Product.Api.Dtos
 {
     public record FindCategoryOutputModel(
-            int CategoryId, 
+            CategoryId CategoryId, 
             string Name, 
             IEnumerable<IFindCategoryOutputModel> Children
         ) : IFindCategoryOutputModel,

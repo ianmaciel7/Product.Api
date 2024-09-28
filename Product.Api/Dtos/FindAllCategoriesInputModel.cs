@@ -1,10 +1,11 @@
 ﻿
 
 using Microsoft.AspNetCore.Mvc;
+using Product.Api.Data.Entities.ValueObjects;
 
 namespace Product.Api.Dtos
 {
-    public record FindAllCategoriesInputModel([FromQuery]int? CategoryId) : IFindAllCategoriesInputModel
+    public record FindAllCategoriesInputModel([FromQuery]CategoryId? CategoryId) : IFindAllCategoriesInputModel
     {
     }
 }

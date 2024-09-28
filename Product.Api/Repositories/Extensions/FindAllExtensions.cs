@@ -4,11 +4,13 @@ namespace Product.Api.Repositories.Extensions
 {
     public static class FindAllExtensions
     {
-        public static IQueryable<T> FindAll<T>(this DbSet<T> dbSet, int? id = null) where T : class
+        public static IQueryable<T> FindAll<T,TId>(this DbSet<T> dbSet, TId? id = null) 
+            where T : class
+            where TId : class
         {
             var entities = dbSet.AsQueryable();
 
-            if (id == null)
+            if (id == null || id.Equals(default(TId)))
             {
                 return entities;
             }
@@ -20,7 +22,7 @@ namespace Product.Api.Repositories.Extensions
                 throw new ArgumentException("Primary key not found.", nameof(keyName));
             }
 
-            return entities.Where(e => EF.Property<int>(e, keyName) == id);
+            return entities.Where(e => EF.Property<TId>(e, keyName).Equals(id));
         }
     }
 

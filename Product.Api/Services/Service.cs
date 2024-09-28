@@ -6,19 +6,20 @@ using Product.Api.Mappings.Extensions;
 
 namespace Product.Api.Services
 {
-    internal class Service<T>(IUrlService urlService, IRepository<T> repository,IMapper mapper) : IService where T : class
+    internal class Service<T,TId>(IUrlService urlService, IRepository<T> repository,IMapper mapper)
+        : IService where T : class where TId : class
     {
 
-        private readonly Repository<T> _repository = (Repository<T>)repository;
+        private readonly Repository<T, TId> _repository = (Repository<T, TId>)repository;
 
-        public TResult FindById<TResult>(int id)
+        public TResult FindById<TResult>(TId id)
         {
             var entity = _repository.FindById(id);
             Guard.IsNotNull(entity);
             return mapper.Map<TResult>(entity, urlService);
         }
 
-        public TResult FindAllById<TResult>(int? id)
+        public TResult FindAllById<TResult>(TId? id)
         {
             var entity = _repository.FindAllById(id);
             return mapper.Map<TResult>(entity, urlService);
@@ -33,7 +34,7 @@ namespace Product.Api.Services
             return mapper.Map<TResult>(entity, urlService);
         }
 
-        public TResult RemoveById<TResult>(int id)
+        public TResult RemoveById<TResult>(TId id)
         {
             var entity = _repository.FindById(id);
             Guard.IsNotNull(entity);

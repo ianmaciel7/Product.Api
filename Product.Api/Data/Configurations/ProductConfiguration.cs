@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Product.Api.Data.Entities.ValueObjects;
 
 namespace Product.Api.Data.Configurations
 {
@@ -9,8 +11,17 @@ namespace Product.Api.Data.Configurations
 
         public void Configure(EntityTypeBuilder<Entities.Product> builder)
         {
+            var categoryIdConverter = new ValueConverter<CategoryId, int>(
+               id => id.Value,
+               value => new CategoryId(value)
+           );
+            var productIdConverter = new ValueConverter<ProductId, int>(
+                id => id.Value,
+                value => new ProductId(value)
+            );
+            builder.Property(c => c.ProductId).HasConversion(productIdConverter);
+            builder.Property(c => c.CategoryId).HasConversion(categoryIdConverter);
 
-            builder.Navigation(p => p.Category).AutoInclude();
 
             if (_env.IsDevelopment())
             {

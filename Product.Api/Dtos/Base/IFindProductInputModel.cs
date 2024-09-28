@@ -1,7 +1,9 @@
-﻿namespace Product.Api.Dtos.Base
+﻿using Product.Api.Data.Entities.ValueObjects;
+
+namespace Product.Api.Dtos.Base
 {
     public interface IFindProductInputModel : IProductInputModel
     {
-        int ProductId { get; }
+        ProductId ProductId { get; }
     }
 }

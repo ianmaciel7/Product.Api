@@ -1,9 +1,10 @@
-﻿using Product.Api.Dtos.Base;
+﻿using Product.Api.Data.Entities.ValueObjects;
+using Product.Api.Dtos.Base;
 
 namespace Product.Api.Dtos
 {
     public interface IFindAllCategoriesInputModel : ICategoryInputModel
     {
-        public int? CategoryId { get; }
+        public CategoryId? CategoryId { get; }
     }
 }

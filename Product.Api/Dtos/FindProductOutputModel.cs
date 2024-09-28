@@ -1,13 +1,14 @@
-﻿using Product.Api.Dtos.Base;
+﻿using Product.Api.Data.Entities.ValueObjects;
+using Product.Api.Dtos.Base;
 
 namespace Product.Api.Dtos
 {
     public record FindProductOutputModel(
-        int ProductId,
+        ProductId ProductId,
         string Name,
         decimal Price, 
         string Description, 
-        int? CategoryId,
+        CategoryId? CategoryId,
         string? CategoryName
     ) : IFindProductOutputModel, 
         IAddProductOutputModel, 

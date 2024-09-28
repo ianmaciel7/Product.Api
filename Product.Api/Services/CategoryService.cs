@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CommunityToolkit.Diagnostics;
 using Product.Api.Data.Entities;
+using Product.Api.Data.Entities.ValueObjects;
 using Product.Api.Dtos;
 using Product.Api.Dtos.Base;
 using Product.Api.Repositories;
@@ -8,7 +8,7 @@ using Product.Api.Repositories;
 namespace Product.Api.Services
 {
     internal class CategoryService(IUrlService urlService, IMapper mapper, ICategoryRepository categoryRepository)
-        : Service<Category>(urlService, categoryRepository, mapper),
+        : Service<Category,CategoryId>(urlService, categoryRepository, mapper),
         ICategoryService
     {
 
