@@ -9,16 +9,14 @@ namespace Product.Api.Mappings.Profiles
     {
         public ProductProfile()
         {
-            
-            CreateMap<Entities.Product, FindProductOutputModel>()
-               .ForCtorParam("ProductId", opt => opt.MapFrom(src => src.ProductId))
-               .ForCtorParam("Name", opt => opt.MapFrom(src => src.Name))
-               .ForCtorParam("Description", opt => opt.MapFrom(src => src.Description))
-               .ForCtorParam("Category", opt => opt.MapFrom((src,context) => context.Mapper.Map<IFindCategoryOutputModel>(src.Category)))
-               .ForCtorParam("Price", opt => opt.MapFrom(src => src.Price));
-            CreateMap<IEnumerable<Entities.Product>, FindAllProductsOutputModel>()
-                .ForCtorParam("Products", opt => opt.MapFrom((src, context) => context.Mapper.Map<IEnumerable<FindProductOutputModel>>(src)));
 
+            CreateMap<Entities.Product, FindProductOutputModel>();
+            CreateMap<IEnumerable<Entities.Product>, FindAllProductsOutputModel>()
+                .ConvertUsing((src, dest, context) =>
+                {
+                    var p = context.Mapper.Map<IEnumerable<IFindProductOutputModel>>(src);
+                    return new FindAllProductsOutputModel(p);
+                });
             CreateMap<Entities.Product, IFindProductOutputModel>().As<FindProductOutputModel>();
             CreateMap<Entities.Product, IAddProductOutputModel>().As<FindProductOutputModel>();
             CreateMap<Entities.Product, IUpdateProductOutputModel>().As<FindProductOutputModel>();
@@ -28,12 +26,6 @@ namespace Product.Api.Mappings.Profiles
 
             CreateMap<AddProductInputModel, Entities.Product>();
             CreateMap<UpdateProductInputModel, Entities.Product>();
-
-
-           
-
-            
-
         }
 
         private Uri? MapByUri(Entities.Product product,ResolutionContext context)

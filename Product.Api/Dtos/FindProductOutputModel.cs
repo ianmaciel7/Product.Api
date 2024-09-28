@@ -7,7 +7,8 @@ namespace Product.Api.Dtos
         string Name,
         decimal Price, 
         string Description, 
-        IFindCategoryOutputModel? Category
+        int? CategoryId,
+        string? CategoryName
     ) : IFindProductOutputModel, 
         IAddProductOutputModel, 
         IUpdateProductOutputModel, 
