@@ -11,11 +11,12 @@ namespace Product.Api.Mappings.Profiles
         public CategoryProfile()
         {
             CreateMap<IEnumerable<Category>, FindAllCategoriesOutputModel>()
-               .ForCtorParam("Categories", opt => opt.MapFrom((src, cotext) => cotext.Mapper.Map<IEnumerable<IFindCategoryOutputModel>>(src)));
-            CreateMap<Category, FindCategoryOutputModel>()
-                .ForCtorParam("CategoryId", opt => opt.MapFrom(src => src.CategoryId))
-                .ForCtorParam("Name", opt => opt.MapFrom(src => src.Name))
-                .ForCtorParam("Children", opt => opt.MapFrom(src => src.Children));
+               .ConvertUsing((src, dest, context) =>
+               {
+                   var p = context.Mapper.Map<IEnumerable<IFindCategoryOutputModel>>(src);
+                   return new FindAllCategoriesOutputModel(p);
+               });
+            CreateMap<Category, FindCategoryOutputModel>();
             CreateMap<Category, IFindCategoryOutputModel>().As<FindCategoryOutputModel>();
             CreateMap<Category, IAddCategoryOutputModel>().As<FindCategoryOutputModel>();
             CreateMap<Category, IUpdateCategoryOutputModel>().As<FindCategoryOutputModel>();
