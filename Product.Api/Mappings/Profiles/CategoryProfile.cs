@@ -15,9 +15,7 @@ namespace Product.Api.Mappings.Profiles
             CreateMap<Category, FindCategoryOutputModel>()
                 .ForCtorParam("CategoryId", opt => opt.MapFrom(src => src.CategoryId))
                 .ForCtorParam("Name", opt => opt.MapFrom(src => src.Name))
-                .ForCtorParam("Products", opt => opt.MapFrom(src => src.Products))
-                .ForCtorParam("Children", opt => opt.MapFrom(src => src.Children))
-                .ForCtorParam("Parent", opt => opt.MapFrom((src, context) => context.Mapper.Map<IFindCategoryOutputModel>(src.Parent)));
+                .ForCtorParam("Children", opt => opt.MapFrom(src => src.Children));
             CreateMap<Category, IFindCategoryOutputModel>().As<FindCategoryOutputModel>();
             CreateMap<Category, IAddCategoryOutputModel>().As<FindCategoryOutputModel>();
             CreateMap<Category, IUpdateCategoryOutputModel>().As<FindCategoryOutputModel>();

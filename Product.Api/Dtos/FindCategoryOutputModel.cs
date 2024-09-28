@@ -5,9 +5,7 @@ namespace Product.Api.Dtos
     public record FindCategoryOutputModel(
             int CategoryId, 
             string Name, 
-            IEnumerable<Uri> Children,
-            IEnumerable<Uri> Products,
-            IFindCategoryOutputModel Parent
+            IEnumerable<IFindCategoryOutputModel> Children
         ) : IFindCategoryOutputModel,
             IAddCategoryOutputModel,
             IRemoveCategoryOuputModel,

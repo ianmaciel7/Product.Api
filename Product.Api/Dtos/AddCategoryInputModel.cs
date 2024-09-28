@@ -6,9 +6,8 @@ namespace Product.Api.Dtos
         string Name,
         string Description,
         int? ParentId = null,
-        IEnumerable<AddCategoryInputModel>? Children = null
+        IEnumerable<IAddCategoryInputModel>? Children = null
     ) : IAddCategoryInputModel
     {
-        IEnumerable<IAddCategoryInputModel>? IAddCategoryInputModel.Children => Children;
     }
 }

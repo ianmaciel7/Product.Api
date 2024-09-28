@@ -4,8 +4,6 @@
     {
         int CategoryId { get; }
         string Name { get; }
-        IEnumerable<Uri> Children { get; }
-        IEnumerable<Uri> Products { get; }
-        IFindCategoryOutputModel Parent { get; }
+        IEnumerable<IFindCategoryOutputModel> Children { get; }
     }
 }
