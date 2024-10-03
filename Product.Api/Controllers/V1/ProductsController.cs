@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Product.Api.Data.Entities.ValueObjects;
 using Product.Api.Dtos;
 using Product.Api.Services;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Product.Api.Controllers.V1
 {
@@ -36,9 +38,21 @@ namespace Product.Api.Controllers.V1
             return Ok(categories);
         }
 
-        [HttpPut("{ProductId:int}", Name = PUT_PRODUCT)]
-        public IActionResult Put(UpdateProductInputModel inputModel)
+        [HttpPut(Name = PUT_PRODUCT)]
+        public IActionResult Put([FromBody] UpdateProductInputModel inputModel)
         {
+            var categories = productService.Update(inputModel);
+            return Ok(categories);
+        }
+
+
+        [HttpPut("{ProductId:int}", Name = PUT_EXIST_PRODUCT)]
+        public IActionResult Put(
+            [FromRoute] ProductId ProductId, 
+            [FromBody] UpdateProductInputModel inputModel
+        )
+        {
+            inputModel = inputModel with { ProductId = ProductId };
             var categories = productService.Update(inputModel);
             return Ok(categories);
         }

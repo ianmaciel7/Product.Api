@@ -14,8 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-   options.JsonSerializerOptions.Converters.Add(new PrimaryKeyConvert<CategoryId>(e => e.Value));
-   options.JsonSerializerOptions.Converters.Add(new PrimaryKeyConvert<ProductId>(e => e.Value));
+   options.JsonSerializerOptions.Converters.Add(new CategoryIdConverter());
+   options.JsonSerializerOptions.Converters.Add(new ProductIdConverter());
 });
 builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

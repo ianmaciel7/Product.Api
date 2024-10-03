@@ -19,7 +19,7 @@ namespace Product.Api.Data.Configurations
                 id => id.Value,
                 value => new ProductId(value)
             );
-            builder.Property(c => c.ProductId).HasConversion(productIdConverter);
+            builder.Property(c => c.ProductId).HasConversion(productIdConverter).ValueGeneratedOnAdd();
             builder.Property(c => c.CategoryId).HasConversion(categoryIdConverter);
 
 

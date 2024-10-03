@@ -20,7 +20,8 @@ namespace Product.Api.Data.Configurations
             );
                   
             builder.Property(c => c.CategoryId)
-                   .HasConversion(categoryIdConverter);
+                   .HasConversion(categoryIdConverter)
+                   .ValueGeneratedOnAdd();
 
             builder.Property(c => c.ParentId)
                    .HasConversion(categoryIdConverter);

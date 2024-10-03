@@ -1,29 +1,29 @@
-﻿using System.Text.Json;
+﻿using Product.Api.Data.Entities.ValueObjects;
 using System.Text.Json.Serialization;
+using System.Text.Json;
 
-public class PrimaryKeyConvert<T> : JsonConverter<T>
+public class CategoryIdConverter : JsonConverter<CategoryId>
 {
-    private readonly Func<T, object> _convert;
-
-    public PrimaryKeyConvert(Func<T, object> convert)
+    public override CategoryId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        _convert = convert ?? throw new ArgumentNullException(nameof(convert));
+        return new CategoryId(reader.GetInt32());
     }
 
-    public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, CategoryId value, JsonSerializerOptions options)
     {
-        var result = JsonSerializer.Deserialize<T>(ref reader, options);
-        if (result == null)
-        {
-            throw new JsonException($"Unable to deserialize {typeof(T)}");
-        }
-        result = (T)_convert(result);
-        return result;
+        writer.WriteNumberValue(value.Value);
+    }
+}
+
+public class ProductIdConverter : JsonConverter<ProductId>
+{
+    public override ProductId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        return new ProductId(reader.GetInt32());
     }
 
-    public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, ProductId value, JsonSerializerOptions options)
     {
-        var convertedValue = _convert(value);
-        JsonSerializer.Serialize(writer, convertedValue, options);
+        writer.WriteNumberValue(value.Value);
     }
 }
