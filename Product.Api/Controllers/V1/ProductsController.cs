@@ -2,7 +2,6 @@
 using Product.Api.Data.Entities.ValueObjects;
 using Product.Api.Dtos;
 using Product.Api.Services;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Product.Api.Controllers.V1
 {

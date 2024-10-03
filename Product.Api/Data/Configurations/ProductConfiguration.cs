@@ -11,6 +11,8 @@ namespace Product.Api.Data.Configurations
 
         public void Configure(EntityTypeBuilder<Entities.Product> builder)
         {
+            //builder.HasKey(c => c.ProductId);
+
             var categoryIdConverter = new ValueConverter<CategoryId, int>(
                id => id.Value,
                value => new CategoryId(value)
@@ -22,6 +24,8 @@ namespace Product.Api.Data.Configurations
             builder.Property(c => c.ProductId).HasConversion(productIdConverter).ValueGeneratedOnAdd();
             builder.Property(c => c.CategoryId).HasConversion(categoryIdConverter);
 
+            //builder.OwnsOne(c => c.ProductId);
+            //builder.OwnsOne(c => c.CategoryId);
 
             if (_env.IsDevelopment())
             {

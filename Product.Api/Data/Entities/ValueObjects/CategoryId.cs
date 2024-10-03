@@ -3,8 +3,9 @@
 namespace Product.Api.Data.Entities.ValueObjects
 {
     [Owned]
-    public record CategoryId(int Value) : IEqualityComparer<CategoryId>
+    public record CategoryId(int Value) : IEqualityComparer<CategoryId>, IPrimaryKey<int>
     {
+        object IPrimaryKey.Value => Value;
 
         public override string ToString() => Value.ToString();
         public static implicit operator int(CategoryId id) => id.Value;

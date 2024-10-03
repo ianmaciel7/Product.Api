@@ -6,11 +6,14 @@ using Product.Api.Data.Entities.ValueObjects;
 using Product.Api.Filters;
 using Product.Api.Repositories;
 using Product.Api.Services;
+using System.ComponentModel;
+using Product.Api.Converts;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+TypeDescriptor.AddAttributes(typeof(CategoryId), new TypeConverterAttribute(typeof(CategoryIdTypeConverter)));
+TypeDescriptor.AddAttributes(typeof(ProductId), new TypeConverterAttribute(typeof(ProductIdTypeConverter)));
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {

@@ -3,8 +3,10 @@
 namespace Product.Api.Data.Entities.ValueObjects
 {
     [Owned]
-    public record ProductId(int Value) : IEqualityComparer<ProductId>
+    public record ProductId(int Value) : IEqualityComparer<ProductId>, IPrimaryKey<int>
     {
+        object IPrimaryKey.Value => Value;
+
         public override string ToString() => Value.ToString();
         public static implicit operator int(ProductId id) => id.Value;
         public static implicit operator int?(ProductId? id) => id?.Value ?? default;
