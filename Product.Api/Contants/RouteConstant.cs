@@ -12,5 +12,7 @@
         public const string DELETE_PRODUCT = "DeleteProduct";
         public const string PUT_PRODUCT = "PutProduct";
         public const string PUT_EXIST_PRODUCT = "PutExistProduct";
+        public const string PUT_CATEGORY = "PutCategory";
+        public const string PUT_EXIST_CATEGORY = "PutExistCategory";
     }
 }

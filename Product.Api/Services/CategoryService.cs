@@ -31,5 +31,10 @@ namespace Product.Api.Services
         {
             return base.RemoveById<IRemoveCategoryOuputModel>(inputModel.CategoryId);
         }
+
+        public IUpdateCategoryOutputModel Update(IUpdateCategoryInputModel inputModel)
+        {
+            return base.Update<IUpdateCategoryOutputModel>(inputModel);
+        }
     }
 }

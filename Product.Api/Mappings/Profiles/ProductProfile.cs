@@ -24,8 +24,8 @@ namespace Product.Api.Mappings.Profiles
             CreateMap<Entities.Product, Uri?>().ConstructUsing(MapByUri);
             CreateMap<IEnumerable<Entities.Product>, IFindAllProductsOutputModel>().As<FindAllProductsOutputModel>();
 
-            CreateMap<AddProductInputModel, Entities.Product>();
-            CreateMap<UpdateProductInputModel, Entities.Product>();
+            CreateMap<IAddProductInputModel, Entities.Product>();
+            CreateMap<IUpdateProductInputModel, Entities.Product>();
         }
 
         private Uri? MapByUri(Entities.Product product,ResolutionContext context)

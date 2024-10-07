@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Product.Api.Data.Entities.ValueObjects;
 using Product.Api.Dtos;
 using Product.Api.Services;
 
@@ -34,6 +35,24 @@ namespace Product.Api.Controllers.V1
         public IActionResult Delete(RemoveCategoryInputModel inputModel)
         {
             var categories = categoryService.Remove(inputModel);
+            return Ok(categories);
+        }
+
+        [HttpPut(Name = PUT_CATEGORY)]
+        public IActionResult Put([FromBody] UpdateCategoryInputModel inputModel)
+        {
+            var categories = categoryService.Update(inputModel);
+            return Ok(categories);
+        }
+
+        [HttpPut("{CategoryId:int}", Name = PUT_EXIST_CATEGORY)]
+        public IActionResult Put(
+            [FromRoute] CategoryId CategoryId,
+            [FromBody] UpdateCategoryInputModel inputModel
+        )
+        {
+            inputModel = inputModel with { CategoryId = CategoryId };
+            var categories = categoryService.Update(inputModel);
             return Ok(categories);
         }
     }

@@ -23,7 +23,8 @@ namespace Product.Api.Mappings.Profiles
             CreateMap<Category, IRemoveCategoryOuputModel>().As<FindCategoryOutputModel>();
             CreateMap<Category, Uri?>().ConstructUsing(MapByUri);
             CreateMap<IEnumerable<Category>, IFindAllCategoriesOutputModel>().As<FindAllCategoriesOutputModel>();
-            CreateMap<AddCategoryInputModel, Category>();
+            CreateMap<IAddCategoryInputModel, Category>();
+            CreateMap<IUpdateProductInputModel, Category>();
         }
 
         private Uri? MapByUri(Category? category, ResolutionContext context)
