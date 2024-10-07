@@ -12,12 +12,12 @@ namespace Product.Api.Services
     {
         public IFindProductOutputModel Find(IFindProductInputModel inputModel)
         {
-            return FindById<IFindProductOutputModel>(inputModel.ProductId);
+            return base.FindById<IFindProductOutputModel>(inputModel.ProductId);
         }
 
         public IFindAllProductsOutputModel FindAll(IFindAllProductsInputModel inputModel)
         {
-            return FindAllById<IFindAllProductsOutputModel>(inputModel.ProductId);
+            return base.FindAllById<IFindAllProductsOutputModel>(inputModel.ProductId);
         }
 
         public IAddProductOutputModel Add(IAddProductInputModel inputModel)
@@ -32,10 +32,7 @@ namespace Product.Api.Services
 
         public IUpdateProductOutputModel Update(IUpdateProductInputModel inputModel)
         {
-            var product = mapper.Map<Entities.Product>(inputModel);
-            productRepository.Update(product);
-            productRepository.SaveChanges();
-            return mapper.Map<IUpdateProductOutputModel>(product, urlService);
+           return base.Update<IUpdateProductOutputModel>(inputModel);
         }
     }
 }

@@ -42,5 +42,13 @@ namespace Product.Api.Services
             _repository.SaveChanges();
             return mapper.Map<TResult>(entity, urlService);
         }
+
+        public TResult Update<TResult>(object inputModel)
+        {
+            var product = mapper.Map<T>(inputModel);
+            _repository.Update(product);
+            _repository.SaveChanges();
+            return mapper.Map<TResult>(product, urlService);
+        }
     }
 }
