@@ -38,6 +38,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUrlService, UrlService>();
+builder.Services.AddScoped<ApplicationDbContext, ApplicationDbContext>();
 builder.Services.AddAutoMapper(typeof(Program));
 // send HttpContext
 builder.Services.AddHttpContextAccessor();
@@ -60,3 +61,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
