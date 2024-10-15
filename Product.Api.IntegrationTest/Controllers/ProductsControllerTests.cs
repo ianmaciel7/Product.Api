@@ -1,98 +1,130 @@
-﻿using FluentAssertions;
-using Product.Api.IntegrationTest;
+﻿using Bogus.DataSets;
+using FluentAssertions;
+using Product.Api.Data.Entities;
+using Product.Api.Data.Entities.ValueObjects;
 using Product.Api.IntegrationTest.Configurations;
+using Product.Api.IntegrationTest.Extensions;
 using Product.Api.IntegrationTest.Fakes;
 using System.Net;
 using System.Net.Http.Json;
 using Xunit.Abstractions;
 
-public class ProductsControllerTests(InMemoryServer server, ITestOutputHelper outputHelper) : IntegrationTest(server, outputHelper)
+namespace Product.Api.IntegrationTest.Controllers
 {
-    public static string Uri => "/api/v1/products";
-
-
-    [Fact]
-    public async Task Get_All_Products_ReturnsOk()
+    public class ProductsControllerTests(InMemoryServer server, ITestOutputHelper outputHelper) : IntegrationTest(server, outputHelper)
     {
-        // Arrange
+        public static string Uri => "/api/v1/products";
 
 
-        // Act
-        var response = await HttpClient.GetAsync(Uri);
-        response.EnsureSuccessStatusCode();
+        [Fact]
+        public async Task Get_All_Products_ReturnsOk()
+        {
+            // Arrange
+            DbContext.GenerateProduct(out var product)
+                     .GenerateProduct(out var product2);
 
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
+            // Act
+            var response = await HttpClient.GetAsync(Uri);
+            OutputHelper.WriteLine(await response.Content.ReadAsStringAsync());
+            response.EnsureSuccessStatusCode();
 
-    [Fact]
-    public async Task Get_Product_By_Id_ReturnsOk()
-    {
-        // Arrange
-        var category = CategoryFaker.Create();
-        this.DbContext.Categories.Add(category);
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
-        // Act
-        var response = await HttpClient.GetAsync(Uri);
-        response.EnsureSuccessStatusCode();
+        [Fact]
+        public async Task Get_Product_By_Id_ReturnsOk()
+        {
+            // Arrange
+            DbContext.GenerateProduct(out var product);
 
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
+            // Act
+            var response = await HttpClient.GetAsync(Uri);
+            OutputHelper.WriteLine(await response.Content.ReadAsStringAsync());
+            response.EnsureSuccessStatusCode();
 
-    [Fact]
-    public async Task Post_Add_Product_ReturnsOk()
-    {
-        // Arrange
-        var requestUri = "/api/v1/products";
-        var newProduct = new { };
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
-        // Act
-        var response = await HttpClient.PostAsJsonAsync(Uri, newProduct);
-        response.EnsureSuccessStatusCode();
+        [Fact]
+        public async Task Post_Add_Product_ReturnsOk()
+        {
+            // Arrange
+            var product = ProductFaker.GenerateDefault();
 
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
+            // Act
+            var response = await HttpClient.PostAsJsonAsync(Uri, product);
+            OutputHelper.WriteLine(await response.Content.ReadAsStringAsync());
+            response.EnsureSuccessStatusCode();
 
-    [Fact]
-    public async Task Put_Update_Product_ReturnsOk()
-    {
-        // Arrange
-        var updatedProduct = new { };
 
-        // Act
-        var response = await HttpClient.PutAsJsonAsync(Uri, updatedProduct);
-        response.EnsureSuccessStatusCode();
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
+        [Fact]
+        public async Task Put_Update_Product_ReturnsOk()
+        {
+            // Arrange
+            var product = ProductFaker.GenerateDefault();
 
-    [Fact]
-    public async Task Put_Update_Existing_Product_ReturnsOk()
-    {
-        // Arrange
-        var updatedProduct = new { };
+            // Act
+            var response = await HttpClient.PutAsJsonAsync(Uri, product);
+            OutputHelper.WriteLine(await response.Content.ReadAsStringAsync());
+            response.EnsureSuccessStatusCode();
 
-        // Act
-        var response = await HttpClient.PutAsJsonAsync(Uri, updatedProduct);
-        response.EnsureSuccessStatusCode();
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
 
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
+        [Fact]
+        public async Task Put_Update_Existing_Product_ReturnsOk()
+        {
+            // Arrange
+            DbContext.GenerateProduct(out var product);
+            if (product is null)
+            {
+                OutputHelper.WriteLine("Product is null");
+                return;
 
-    [Fact]
-    public async Task Delete_Remove_Product_ReturnsOk()
-    {
-        // Arrange
+            }
+            var url = $"{Uri}/{product.ProductId}";
+            var newProduct = ProductFaker.GenerateDefault();
+            var newCategory =  DbContext.FindRandomCategory(new HashSet<CategoryId>() { product.CategoryId });
 
-        // Act
-        var response = await HttpClient.DeleteAsync(Uri);
-        response.EnsureSuccessStatusCode();
+            product = new()
+            {
+                ProductId = product.ProductId,
+                Name = newProduct.Name,
+                Description = newProduct.Description,
+                Price = newProduct.Price,
+                CategoryId = newCategory.CategoryId,
+                Category = null
+            };
 
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+            // Act
+            var response = await HttpClient.PutAsJsonAsync(url, product);
+            OutputHelper.WriteLine(await response.Content.ReadAsStringAsync());
+            response.EnsureSuccessStatusCode();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task Delete_Remove_Product_ReturnsOk()
+        {
+            // Arrange
+            DbContext.GenerateProduct(out var product);
+
+            // Act
+            var response = await HttpClient.DeleteAsync($"{Uri}/{product.ProductId}");
+            OutputHelper.WriteLine(await response.Content.ReadAsStringAsync());
+            response.EnsureSuccessStatusCode();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }

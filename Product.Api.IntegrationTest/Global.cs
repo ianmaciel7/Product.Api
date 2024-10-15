@@ -1,8 +1,2 @@
-﻿
-namespace Product.Api.IntegrationTest
-{
-    public class Global
-    {
-
-    }
-}
+﻿global using Entities = Product.Api.Data.Entities;
+global using static Product.Api.Contants.RouteConstant;

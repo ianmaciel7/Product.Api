@@ -1,28 +1,32 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.Extensions.DependencyInjection;
 using Product.Api.Data;
 using Product.Api.IntegrationTest.Configurations;
 using Xunit.Abstractions;
 
 namespace Product.Api.IntegrationTest
 {
-    public abstract class IntegrationTest(InMemoryServer server, ITestOutputHelper outputHelper) 
+    public abstract class IntegrationTest
         : IClassFixture<InMemoryServer>, IAsyncLifetime
     {
         protected HttpClient HttpClient;
-        protected readonly InMemoryServer server = server;
-        protected readonly ITestOutputHelper outputHelper = outputHelper;
-        protected ApplicationDbContext? DbContext;
+        protected readonly InMemoryServer Server;
+        protected readonly ITestOutputHelper OutputHelper;
+        protected ApplicationDbContext DbContext;
+
+        public IntegrationTest(InMemoryServer server, ITestOutputHelper outputHelper)
+        {
+            Server = server;
+            OutputHelper = outputHelper;
+        }
 
 
         public virtual void Initialize()
         {
-            HttpClient = server.CreateClient();
-            using var scope = server.Services.CreateScope();
+            HttpClient = Server.CreateClient();
+            var scope = Server.Services.CreateScope();
             var scopedServices = scope.ServiceProvider;
             DbContext = scopedServices.GetRequiredService<ApplicationDbContext>();
-          
-            //dbContext.Database.EnsureDeleted();
-            //dbContext.Database.EnsureCreated();
         }
 
         public Task InitializeAsync()
@@ -33,7 +37,7 @@ namespace Product.Api.IntegrationTest
 
         public void Dispose()
         {
-            DbContext?.Dispose();
+            
         }
 
         public Task DisposeAsync()

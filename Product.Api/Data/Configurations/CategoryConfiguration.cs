@@ -12,6 +12,8 @@ namespace Product.Api.Data.Configurations
 
         public void Configure(EntityTypeBuilder<Category> builder)
         {
+            builder.HasKey(c => c.CategoryId);
+
             var categoryIdConverter = new ValueConverter<CategoryId, int>(
                 id => id.Value,
                 value => new CategoryId(value)

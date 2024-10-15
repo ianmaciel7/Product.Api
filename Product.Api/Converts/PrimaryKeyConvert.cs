@@ -10,6 +10,12 @@ namespace Product.Api.Converts
     {
         public override CategoryId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if(reader.TokenType is JsonTokenType.EndObject or JsonTokenType.StartObject)
+            {
+                using var doc = JsonDocument.ParseValue(ref reader);
+                var categoryId = doc.RootElement.GetProperty("value").GetInt32();
+                return new CategoryId(categoryId);
+            }
             return new CategoryId(reader.GetInt32());
         }
 
@@ -23,6 +29,12 @@ namespace Product.Api.Converts
     {
         public override ProductId Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType is JsonTokenType.EndObject or JsonTokenType.StartObject)
+            {
+                using var doc = JsonDocument.ParseValue(ref reader);
+                var categoryId = doc.RootElement.GetProperty("value").GetInt32();
+                return new ProductId(categoryId);
+            }
             return new ProductId(reader.GetInt32());
         }
 
