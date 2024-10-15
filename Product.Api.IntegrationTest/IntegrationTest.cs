@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Product.Api.Data;
 using Product.Api.IntegrationTest.Configurations;
@@ -27,6 +28,14 @@ namespace Product.Api.IntegrationTest
             var scope = Server.Services.CreateScope();
             var scopedServices = scope.ServiceProvider;
             DbContext = scopedServices.GetRequiredService<ApplicationDbContext>();
+            // if exist dataase
+            if (DbContext.Database.CanConnect()){
+                DbContext.Database.EnsureDeleted();
+            }
+            DbContext.Database.Migrate();
+            DbContext.Database.EnsureCreated();
+            
+
         }
 
         public Task InitializeAsync()
