@@ -16,6 +16,15 @@ namespace Product.Api.IntegrationTest.Extensions
             return dbContext;
         }
 
+        public static ApplicationDbContext GenerateCategory(this ApplicationDbContext dbContext, out Category category)
+        {
+            var newCategory = CategoryFaker.GenerateDefault();
+            dbContext.Set<Category>().Add(newCategory);
+            dbContext.SaveChanges();
+            category = newCategory;
+            return dbContext;
+        }
+
         public static Category FindRandomCategory(this ApplicationDbContext dbContext, ISet<CategoryId>? skip = null)
         {
             var categories = dbContext.Categories

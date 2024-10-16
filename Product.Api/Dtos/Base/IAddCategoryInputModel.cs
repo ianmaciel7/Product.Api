@@ -6,6 +6,7 @@ namespace Product.Api.Dtos.Base
     {
         string Name { get; }
         CategoryId? ParentId { get; }
+        string Description { get; }
         IEnumerable<IAddCategoryInputModel>? Children { get; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Product.Api.Data;
 using Product.Api.IntegrationTest.Configurations;
@@ -14,6 +13,7 @@ namespace Product.Api.IntegrationTest
         protected readonly InMemoryServer Server;
         protected readonly ITestOutputHelper OutputHelper;
         protected ApplicationDbContext DbContext;
+        public static bool _isFirstTime { get; private set; }
 
         public IntegrationTest(InMemoryServer server, ITestOutputHelper outputHelper)
         {
@@ -28,14 +28,17 @@ namespace Product.Api.IntegrationTest
             var scope = Server.Services.CreateScope();
             var scopedServices = scope.ServiceProvider;
             DbContext = scopedServices.GetRequiredService<ApplicationDbContext>();
-            // if exist dataase
+
+            if (!_isFirstTime)
+            {
+                return;
+            }
+
             if (DbContext.Database.CanConnect()){
+                _isFirstTime = false;
                 DbContext.Database.EnsureDeleted();
             }
             DbContext.Database.Migrate();
-            DbContext.Database.EnsureCreated();
-            
-
         }
 
         public Task InitializeAsync()

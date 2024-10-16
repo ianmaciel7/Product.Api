@@ -1,6 +1,4 @@
-﻿using Bogus.DataSets;
-using FluentAssertions;
-using Product.Api.Data.Entities;
+﻿using FluentAssertions;
 using Product.Api.Data.Entities.ValueObjects;
 using Product.Api.IntegrationTest.Configurations;
 using Product.Api.IntegrationTest.Extensions;
@@ -9,7 +7,7 @@ using System.Net;
 using System.Net.Http.Json;
 using Xunit.Abstractions;
 
-namespace Product.Api.IntegrationTest.Controllers
+namespace Product.Api.IntegrationTest.Controllers.V1
 {
     public class ProductsControllerTests(InMemoryServer server, ITestOutputHelper outputHelper) : IntegrationTest(server, outputHelper)
     {
@@ -91,7 +89,7 @@ namespace Product.Api.IntegrationTest.Controllers
             }
             var url = $"{Uri}/{product.ProductId}";
             var newProduct = ProductFaker.GenerateDefault();
-            var newCategory =  DbContext.FindRandomCategory(new HashSet<CategoryId>() { product.CategoryId });
+            var newCategory = DbContext.FindRandomCategory(new HashSet<CategoryId>() { product.CategoryId });
 
             product = new()
             {

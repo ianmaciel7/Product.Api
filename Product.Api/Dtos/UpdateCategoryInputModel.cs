@@ -6,10 +6,11 @@ namespace Product.Api.Dtos
 {
     public record UpdateCategoryInputModel(
         [property: JsonIgnore] CategoryId? CategoryId,
-        string Name,  
-        CategoryId? ParentId, 
+        string Name,
+        CategoryId? ParentId,
+        string Description,
         IEnumerable<IAddCategoryInputModel>? Children
     ) : IUpdateCategoryInputModel
-    {
+    {  
     }
 }
