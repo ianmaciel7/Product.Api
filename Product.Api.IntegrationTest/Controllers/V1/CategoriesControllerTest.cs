@@ -9,7 +9,7 @@ using Xunit.Abstractions;
 
 namespace Product.Api.IntegrationTest.Controllers.V1
 {
-    public class CategoriesControllerTest(InMemoryServer server, ITestOutputHelper outputHelper) : IntegrationTest(server, outputHelper)
+    public class CategoriesControllerTest(TestServer server, ITestOutputHelper outputHelper) : IntegrationTest(server, outputHelper)
     {
         public static string Uri => "/api/v1/categories";
 

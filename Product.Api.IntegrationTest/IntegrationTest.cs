@@ -7,15 +7,15 @@ using Xunit.Abstractions;
 namespace Product.Api.IntegrationTest
 {
     public abstract class IntegrationTest
-        : IClassFixture<InMemoryServer>, IAsyncLifetime
+        : IClassFixture<TestServer>, IAsyncLifetime
     {
         protected HttpClient HttpClient;
-        protected readonly InMemoryServer Server;
+        protected readonly TestServer Server;
         protected readonly ITestOutputHelper OutputHelper;
         protected ApplicationDbContext DbContext;
         public static bool _isFirstTime { get; private set; }
 
-        public IntegrationTest(InMemoryServer server, ITestOutputHelper outputHelper)
+        public IntegrationTest(TestServer server, ITestOutputHelper outputHelper)
         {
             Server = server;
             OutputHelper = outputHelper;
@@ -28,17 +28,6 @@ namespace Product.Api.IntegrationTest
             var scope = Server.Services.CreateScope();
             var scopedServices = scope.ServiceProvider;
             DbContext = scopedServices.GetRequiredService<ApplicationDbContext>();
-
-            if (!_isFirstTime)
-            {
-                return;
-            }
-
-            if (DbContext.Database.CanConnect()){
-                _isFirstTime = false;
-                DbContext.Database.EnsureDeleted();
-            }
-            DbContext.Database.Migrate();
         }
 
         public Task InitializeAsync()

@@ -8,16 +8,24 @@ using Product.Api.Data;
 
 namespace Product.Api.IntegrationTest.Configurations
 {
-    public class InMemoryServer : WebApplicationFactory<Program>
+    public class TestServer : WebApplicationFactory<Program>
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
 
             builder.ConfigureTestServices(services =>
             {
+                var descriptor = services.SingleOrDefault(
+                    d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+
+                if (descriptor is not null)
+                {
+                    services.Remove(descriptor);
+                }
+
                 services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseInMemoryDatabase("Products");
+                    options.UseInMemoryDatabase("ProductsTests");
                 });
             });
         }
