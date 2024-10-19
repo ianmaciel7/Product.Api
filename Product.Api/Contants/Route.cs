@@ -1,6 +1,6 @@
 ﻿namespace Product.Api.Contants
 {
-    public static class RouteConstant
+    public static class Route
     {
         public const string GET_ALL_CATEGORIES = "GetAllCategories";
         public const string GET_CATEGORY = "GetCategory";

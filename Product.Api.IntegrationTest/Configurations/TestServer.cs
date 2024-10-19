@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Product.Api.Data;
-
+using Microsoft.Extensions.Configuration;
 
 namespace Product.Api.IntegrationTest.Configurations
 {
@@ -12,21 +9,15 @@ namespace Product.Api.IntegrationTest.Configurations
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-
-            builder.ConfigureTestServices(services =>
+            builder.ConfigureAppConfiguration((context, config) =>
             {
-                var descriptor = services.SingleOrDefault(
-                    d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
-
-                if (descriptor is not null)
+                var inMemorySettings = new Dictionary<string, string>
                 {
-                    services.Remove(descriptor);
-                }
+                    { "DatabaseProvider", "InMemory" },
+                    { "DefaultDatabaseName", "ProductsTest" }
+                };
 
-                services.AddDbContext<ApplicationDbContext>(options =>
-                {
-                    options.UseInMemoryDatabase("ProductsTests");
-                });
+                config.AddInMemoryCollection(inMemorySettings);
             });
         }
     }

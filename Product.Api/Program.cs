@@ -8,6 +8,8 @@ using Product.Api.Repositories;
 using Product.Api.Services;
 using System.ComponentModel;
 using Product.Api.Converts;
+using Microsoft.FeatureManagement;
+using Product.Api.Contants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,8 +33,23 @@ builder.Services.AddSwaggerGen(e =>
     e.MapType<CategoryId>(() => id);
     e.MapType<ProductId>(() => id);
 });
-builder.Services.AddDbContext<ApplicationDbContext>(
-              options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<ApplicationDbContext>(async (serviceProvider, options) =>
+{
+    var featureManager = serviceProvider.GetRequiredService<IFeatureManager>();
+
+    var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider");
+    var defaultDatabaseName = builder.Configuration.GetValue<string>("DefaultDatabaseName");
+    var isInMemoryDatabase = databaseProvider == FeatureFlag.DatabaseProvider.InMemory;
+    var isUseSqlServer = databaseProvider == FeatureFlag.DatabaseProvider.SqlServer;
+
+    options.UseSqlServer(defaultConnectionString);
+
+    if (isUseSqlServer && isInMemoryDatabase)
+    {
+        options.UseInMemoryDatabase(defaultDatabaseName);
+    }
+});
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -40,10 +57,12 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUrlService, UrlService>();
 builder.Services.AddScoped<ApplicationDbContext, ApplicationDbContext>();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddFeatureManagement();
 // send HttpContext
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
