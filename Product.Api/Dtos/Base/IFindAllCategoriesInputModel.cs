@@ -1,7 +1,6 @@
 ﻿using Product.Api.Data.Entities.ValueObjects;
-using Product.Api.Dtos.Base;
 
-namespace Product.Api.Dtos
+namespace Product.Api.Dtos.Base
 {
     public interface IFindAllCategoriesInputModel : ICategoryInputModel
     {

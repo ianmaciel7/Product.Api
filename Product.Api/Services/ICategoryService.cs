@@ -1,5 +1,4 @@
 ﻿using Product.Api.Data.Entities;
-using Product.Api.Dtos;
 using Product.Api.Dtos.Base;
 
 namespace Product.Api.Services
