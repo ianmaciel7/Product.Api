@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  product.api:
+    image: ${DOCKER_REGISTRY-}productapi
+    container_name: product.api
+    build:
+      context: .
+      dockerfile: Product.Api/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=product.database;Database=Products;User Id=sa;Password=P@ssw0rd;Encrypt=False;MultipleActiveResultSets=true;"
+    depends_on:
+      - product.database
+    networks:
+      - appnetwork
+  
+  product.database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "P@ssw0rd"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    networks:
+      - appnetwork
+
+networks:
+  appnetwork:
+    driver: bridge

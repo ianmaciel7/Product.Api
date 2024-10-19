@@ -10,6 +10,7 @@ using System.ComponentModel;
 using Product.Api.Converts;
 using Microsoft.FeatureManagement;
 using Product.Api.Contants;
+using Product.Api.Data.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +43,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(async (serviceProvider, opti
     var defaultDatabaseName = builder.Configuration.GetValue<string>("DefaultDatabaseName");
     var isInMemoryDatabase = databaseProvider == FeatureFlag.DatabaseProvider.InMemory;
     var isUseSqlServer = databaseProvider == FeatureFlag.DatabaseProvider.SqlServer;
-
     options.UseSqlServer(defaultConnectionString);
 
     if (isUseSqlServer && isInMemoryDatabase)
@@ -70,6 +70,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.Migrate();
 
 app.UseHttpsRedirection();
 
