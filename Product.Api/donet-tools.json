@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "description": "Configuration for tools in the .NET environment",
+  "tools": {
+    "dotnet-json": {
+      "version": "1.0.0",
+      "commands": [
+        "dotnet-json"
+      ]
+    },
+    "dotnet-yaml": {
+      "version": "1.0.0",
+      "commands": [
+        "yaml"
+      ]
+    }
+  }
+}

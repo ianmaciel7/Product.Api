@@ -63,6 +63,8 @@ builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
+//GET CONNECTION STRING
+var connectionString = app.Configuration.GetConnectionString("DefaultConnection");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

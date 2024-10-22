@@ -9,10 +9,11 @@
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
     <DockerServiceName>product.api</DockerServiceName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Staging|AnyCPU'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" />
+ 
   <ItemGroup>
-    <None Include="docker-compose.override.yml">
-      <DependentUpon>docker-compose.yml</DependentUpon>
-    </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
   </ItemGroup>

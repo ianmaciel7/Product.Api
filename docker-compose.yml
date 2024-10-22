@@ -7,28 +7,41 @@ services:
     build:
       context: .
       dockerfile: Product.Api/Dockerfile
+      args:
+        ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
     ports:
       - "8080:8080"
       - "8081:8081"
     environment:
-      ConnectionStrings__DefaultConnection: "Server=product.database;Database=Products;User Id=sa;Password=P@ssw0rd;Encrypt=False;MultipleActiveResultSets=true;"
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__DefaultConnection=Server=product.database;Database=Products;User Id=sa;Password=${MSSQL_SA_PASSWORD:-P@ssw0rd};Encrypt=${ENABLE_ENCRYPTION:-False};MultipleActiveResultSets=true
     depends_on:
       - product.database
     networks:
-      - appnetwork
+      - product.network
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
   
   product.database:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sqlserver
+    container_name: product.database
     environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "P@ssw0rd"
-      MSSQL_PID: "Developer"
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD:-P@ssw0rd}
+      - MSSQL_PID=${MSSQL_PID:-Developer}
     ports:
       - "1433:1433"
     networks:
-      - appnetwork
+      - product.network
+    volumes:
+      - product.database.data:/var/opt/mssql
+
+volumes:
+  product.database.data:
 
 networks:
-  appnetwork:
+  product.network:
     driver: bridge
