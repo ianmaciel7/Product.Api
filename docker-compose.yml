@@ -8,12 +8,11 @@ services:
       context: .
       dockerfile: Product.Api/Dockerfile
       args:
-        ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+        BUILD_CONFIGURATION: ${BUILD_CONFIGURATION:-Development}
     ports:
       - "8080:8080"
-      - "8081:8081"
+      - "8081:8081"  
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__DefaultConnection=Server=product.database;Database=Products;User Id=sa;Password=${MSSQL_SA_PASSWORD:-P@ssw0rd};Encrypt=${ENABLE_ENCRYPTION:-False};MultipleActiveResultSets=true
