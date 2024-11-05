@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Configurations>Debug;Release;Staging</Configurations>
+		<MergeAppsettings>false</MergeAppsettings>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -31,16 +32,16 @@
 
 	<ItemGroup>
 		<Content Update="appsettings.json">
-			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+			<CopyToPublishDirectory Condition="'$(MergeAppsettings)' == 'true'">Never</CopyToPublishDirectory>
 		</Content>
 		<Content Update="appsettings.Development.json">
-			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+			<CopyToPublishDirectory Condition="'$(MergeAppsettings)' == 'true'">Never</CopyToPublishDirectory>
 		</Content>
 		<Content Update="appsettings.Production.json">
-			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+			<CopyToPublishDirectory Condition="'$(MergeAppsettings)' == 'true'">Never</CopyToPublishDirectory>
 		</Content>
 		<Content Update="appsettings.Staging.json">
-			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+			<CopyToPublishDirectory Condition="'$(MergeAppsettings)' == 'true'">Never</CopyToPublishDirectory>
 		</Content>
 	</ItemGroup>
 
@@ -71,7 +72,7 @@
 	  <DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
 	</PropertyGroup>
 
-	<Target Name="MergeConfiguration" AfterTargets="AfterPublish">
+	<Target Name="MergeAppsettings" AfterTargets="AfterPublish" Condition="'$(MergeAppsettings)' == 'true'">
 		<Exec Command="dotnet json merge appsettings.json appsettings.$(EnvironmentName).json -o $(OutputPath)publish\appsettings.json" />
 	</Target>
 
