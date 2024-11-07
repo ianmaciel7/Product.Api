@@ -34,13 +34,16 @@ builder.Services.AddSwaggerGen(e =>
     e.MapType<CategoryId>(() => id);
     e.MapType<ProductId>(() => id);
 });
-builder.Services.AddDbContext<ApplicationDbContext>(async (serviceProvider, options) =>
+builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
 {
     var featureManager = serviceProvider.GetRequiredService<IFeatureManager>();
 
-    var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
     var databaseProvider = builder.Configuration.GetValue<string>("DatabaseProvider");
-    var defaultDatabaseName = builder.Configuration.GetValue<string>("DefaultDatabaseName");
+    var defaultDatabaseName = defaultConnectionString.Split(';')
+        .FirstOrDefault(x => x.Contains("Database="))?
+        .Split('=')[1] ?? throw new InvalidOperationException("Database name not found in connection string.");
+
     var isInMemoryDatabase = databaseProvider == FeatureFlag.DatabaseProvider.InMemory;
     var isUseSqlServer = databaseProvider == FeatureFlag.DatabaseProvider.SqlServer;
     options.UseSqlServer(defaultConnectionString);
