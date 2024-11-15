@@ -1,46 +1,47 @@
 version: '3.8'
 
 services:
-  product.api:
-    image: ${DOCKER_REGISTRY-}productapi
-    container_name: product.api
+  api:
+    image: ${DOCKER_REGISTRY-}product.api
+    container_name: api
     build:
       context: .
       dockerfile: Product.Api/Dockerfile
-      args:
-        BUILD_CONFIGURATION: ${BUILD_CONFIGURATION:-Development}
     ports:
-      - "8080:8080"
-      - "8081:8081"  
+      - "8080"
+      - "8081"
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__DefaultConnection=Server=product.database;Database=Products;User Id=sa;Password=${MSSQL_SA_PASSWORD:-P@ssw0rd};Encrypt=${ENABLE_ENCRYPTION:-False};MultipleActiveResultSets=true
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=${ASPNETCORE_Kestrel__Certificates__Default__Path}
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${ASPNETCORE_Kestrel__Certificates__Default__Password}
+      - ConnectionStrings__DefaultConnection=${ConnectionStrings__DefaultConnection}
     depends_on:
-      - product.database
-    networks:
-      - product.network
+      - database
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
-  
-  product.database:
+    networks:
+      - global.network
+
+  database:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: product.database
+    container_name: database
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD:-P@ssw0rd}
-      - MSSQL_PID=${MSSQL_PID:-Developer}
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+      - MSSQL_PID=${MSSQL_PID}
     ports:
       - "1433:1433"
-    networks:
-      - product.network
     volumes:
-      - product.database.data:/var/opt/mssql
+      - global.data:/var/opt/mssql
+    networks:
+      - global.network
 
 volumes:
-  product.database.data:
+  global.data:
 
 networks:
-  product.network:
+  global.network:
     driver: bridge

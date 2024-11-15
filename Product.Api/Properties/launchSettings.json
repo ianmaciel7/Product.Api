@@ -35,15 +35,14 @@
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORT": "8081",
         "ASPNETCORE_HTTP_PORT": "8080",
-        "ASPNETCORE_Kestrel__Certificates__Default__Path": "/.aspnet/https/localhost.pfx",
-        "ASPNETCORE_Kestrel__Certificates__Default__Password": "123",
+        "ASPNETCORE_Kestrel__Certificates__Default__Path": "/home/app/.aspnet/https/Product.Api.pfx",
+        "ASPNETCORE_Kestrel__Certificates__Default__Password": "ad882f78-d264-4a0f-bb90-15b203b270e8",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ConnectionStrings__DefaultConnection": "Server=host.docker.internal;Database=Products;User Id=sa;Password=123;TrustServerCertificate=True;MultipleActiveResultSets=true"
       },
       "publishAllPorts": true,
       "useSSL": true,
-      "sslPort": 44349,
-      "DockerfileRunArguments": "-v C:\\Users\\ianma\\.aspnet\\https:/.aspnet/https/"
+      "sslPort": 44349
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
