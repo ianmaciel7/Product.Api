@@ -20,7 +20,7 @@ jobs:
     - name: List solution files
       run: find . -name "*.sln" -print
     - name: Restore dependencies for all projects
-      run: dotnet restore */Product.Api.sln
+      run: dotnet restore ./Product.Api.sln
     - name: Build
       run: dotnet build --no-restore
     - name: Test
