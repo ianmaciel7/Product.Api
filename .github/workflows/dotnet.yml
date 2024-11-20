@@ -17,10 +17,10 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - name: Print ASPNETCORE_ENVIRONMENT
-        run: echo "ASPNETCORE_ENVIRONMENT=${{ env.ASPNETCORE_ENVIRONMENT }}"
       - name: Restore dependencies
         run: dotnet restore Product.Api.sln
+      - name: Print ASPNETCORE_ENVIRONMENT
+        run: echo "ASPNETCORE_ENVIRONMENT = ${{ env.ASPNETCORE_ENVIRONMENT }}"
       - name: Build
         run: dotnet build Product.Api.sln --configuration ${{ env.ASPNETCORE_ENVIRONMENT }}
 
@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - name: Print ASPNETCORE_ENVIRONMENT in Test
-        run: echo "ASPNETCORE_ENVIRONMENT=${{ env.ASPNETCORE_ENVIRONMENT }}"
+      - name: Print ASPNETCORE_ENVIRONMENT
+        run: echo "ASPNETCORE_ENVIRONMENT = ${{ env.ASPNETCORE_ENVIRONMENT }}"
       - name: Run Tests
         run: dotnet test Product.Api.sln --configuration ${{ env.ASPNETCORE_ENVIRONMENT }} --verbosity normal --logger "trx;LogFileName=test_results.trx"
