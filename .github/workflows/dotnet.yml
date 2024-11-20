@@ -18,7 +18,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Product.Api.sln
       - name: Build
-        run: dotnet build Product.Api.sln --configuration Release --output ./output
+        run: dotnet build Product.Api.sln --configuration Release
 
   test:
     runs-on: ubuntu-latest
@@ -30,6 +30,6 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Run Unit Tests
-        run: dotnet vstest ./output/Product.Api.UnitTest/bin/Release/net8.0/Product.Api.UnitTest.dll --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
+        run: dotnet vstest Product.Api.UnitTest/bin/Release/net8.0/Product.Api.UnitTest.dll --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
       - name: Run Integration Tests
-        run: dotnet vstest ./output/Product.Api.IntegrationTest/bin/Release/net8.0/Product.Api.IntegrationTest.dll --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
+        run: dotnet vstest Product.Api.IntegrationTest/bin/Release/net8.0/Product.Api.IntegrationTest.dll --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
