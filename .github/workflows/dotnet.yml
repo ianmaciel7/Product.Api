@@ -9,8 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      build-dir: ${{ steps.build-dir.outputs.path }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup .NET
@@ -20,8 +18,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Product.Api.sln
       - name: Build
-        id: build-dir
-        run: dotnet build Product.Api.sln --configuration Release
+        run: dotnet build Product.Api.sln --configuration Release --output ./output
 
   test:
     runs-on: ubuntu-latest
@@ -32,5 +29,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - name: Run Tests
-        run: dotnet test Product.Api.sln --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
+      - name: Run Unit Tests
+        run: dotnet test Product.Api.UnitTest/Product.Api.UnitTest.csproj --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
+      - name: Run Integration Tests
+        run: dotnet test Product.Api.IntegrationTest/Product.Api.IntegrationTest.csproj --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
