@@ -30,6 +30,6 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Run Unit Tests
-        run: dotnet test Product.Api.UnitTest/Product.Api.UnitTest.csproj --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
+        run: dotnet vstest ./output/Product.Api.UnitTest/bin/Release/net8.0/Product.Api.UnitTest.dll --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
       - name: Run Integration Tests
-        run: dotnet test Product.Api.IntegrationTest/Product.Api.IntegrationTest.csproj --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
+        run: dotnet vstest ./output/Product.Api.IntegrationTest/bin/Release/net8.0/Product.Api.IntegrationTest.dll --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
