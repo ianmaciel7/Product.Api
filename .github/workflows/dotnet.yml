@@ -1,14 +1,20 @@
 name: .NET
 
+env:
+  ASPNETCORE_ENVIRONMENT: ${{ secrets.ASPNETCORE_ENVIRONMENT }}
+  ASPNETCORE_HTTPS_PORT: ${{ secrets.ASPNETCORE_HTTPS_PORT }}
+  ASPNETCORE_HTTP_PORT: ${{ secrets.ASPNETCORE_HTTP_PORT }}
+  ASPNETCORE_Kestrel__Certificates__Default__Path: ${{ secrets.ASPNETCORE_Kestrel__Certificates__Default__Path }}
+  ASPNETCORE_Kestrel__Certificates__Default__Password: ${{ secrets.ASPNETCORE_Kestrel__Certificates__Default__Password }}
+  
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
+    
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -21,5 +27,40 @@ jobs:
       run: dotnet restore ./Product.Api.sln
     - name: Build
       run: dotnet build ./Product.Api.sln --no-restore
+
+  tests:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
     - name: Test
       run: dotnet test ./Product.Api.sln --no-build --verbosity normal
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [build, tests]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Publish
+      run: dotnet publish ./Product.Api.sln -c ${{ secrets.ASPNETCORE_ENVIRONMENT }} -o ./publish
+
+  upload:
+    runs-on: ubuntu-latest
+    needs: publish
+
+    steps:
+    - name: Upload publish artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: publish-artifacts
+        path: ./publish
