@@ -19,13 +19,13 @@ jobs:
         run: dotnet restore Product.Api.sln
       - name: Build
         run: dotnet build Product.Api.sln --configuration Release
-      - name: List Build Output
-        run: ls -R bin/Release/net8.0/
-      - name: Save Build Artifacts
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: bin/Release/net8.0/*
+          path: |
+            **/bin
+            **/obj
 
   test:
     runs-on: ubuntu-latest
@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - name: Restore Build Artifacts
+      - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
