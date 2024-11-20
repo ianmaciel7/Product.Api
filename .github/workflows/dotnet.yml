@@ -19,7 +19,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Product.Api.sln
       - name: Build
-        run: dotnet build Product.Api.sln --configuration $ASPNETCORE_ENVIRONMENT
+        run: dotnet build Product.Api.sln --configuration ${{ env.ASPNETCORE_ENVIRONMENT }}
 
   test:
     runs-on: ubuntu-latest
@@ -32,4 +32,4 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Run Tests
-        run: dotnet test Product.Api.sln --configuration $ASPNETCORE_ENVIRONMENT --verbosity normal --logger "trx;LogFileName=test_results.trx"
+        run: dotnet test Product.Api.sln --configuration ${{ env.ASPNETCORE_ENVIRONMENT }} --verbosity normal --logger "trx;LogFileName=test_results.trx"
