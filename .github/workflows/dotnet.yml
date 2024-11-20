@@ -5,12 +5,10 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: Development
-
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -25,7 +23,6 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     needs: build
-
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -38,7 +35,6 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     needs: [build, tests]
-
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -51,7 +47,6 @@ jobs:
   upload:
     runs-on: ubuntu-latest
     needs: publish
-
     steps:
     - name: Upload publish artifacts
       uses: actions/upload-artifact@v3
