@@ -1,4 +1,4 @@
-name: .NET
+name: .NET Build and Test
 
 on:
   push:
@@ -8,21 +8,19 @@ on:
 
 jobs:
   build:
-    environment: Development
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies for all projects
-      run: dotnet restore ./Product.Api.sln
+        dotnet-version: '8.0.x'
+    - name: Restore dependencies
+      run: dotnet restore
     - name: Build
-      run: dotnet build ./Product.Api.sln --no-restore
+      run: dotnet build --no-restore --configuration Release
 
-  tests:
-    environment: Development
+  test:
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -30,32 +28,6 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
-    - name: Test
-      run: |
-        dotnet test ./Product.Api.UnitTest/Product.Api.UnitTest.csproj --no-build --verbosity normal --logger "trx;LogFileName=test_results_unit.trx"
-        dotnet test ./Product.Api.IntegrationTest/Product.Api.IntegrationTest.csproj --no-build --verbosity normal --logger "trx;LogFileName=test_results_integration.trx"
-
-  publish:
-    environment: Development
-    runs-on: ubuntu-latest
-    needs: [build, tests]
-    steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Publish
-      run: dotnet publish ./Product.Api.sln -c Release -o ./publish
-
-  upload:
-    environment: Development
-    runs-on: ubuntu-latest
-    needs: publish
-    steps:
-    - name: Upload publish artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: publish-artifacts
-        path: ./publish
+        dotnet-version: '8.0.x'
+    - name: Run Tests
+      run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=test_results.trx"
