@@ -32,7 +32,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Test
-      run: dotnet test ./Product.Api.sln --no-build --verbosity normal
+      run: dotnet test ./Product.Api.sln --no-build --verbosity normal --logger "trx;LogFileName=test_results.trx"
 
   publish:
     environment: Development
@@ -45,7 +45,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Publish
-      run: dotnet publish ./Product.Api.sln -c $ASPNETCORE_ENVIRONMENT -o ./publish
+      run: dotnet publish ./Product.Api.sln -c Release -o ./publish
 
   upload:
     environment: Development
