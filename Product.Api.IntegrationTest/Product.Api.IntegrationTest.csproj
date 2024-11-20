@@ -9,6 +9,12 @@
 	<Configurations>Debug;Release;Staging</Configurations>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Helpers\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <None Remove="Helpers\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="35.6.1" />
@@ -37,10 +43,6 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Helpers\" />
   </ItemGroup>
 
 </Project>

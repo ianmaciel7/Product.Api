@@ -8,15 +8,14 @@ namespace Product.Api.IntegrationTest.Configurations
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureAppConfiguration((context, config) =>
+            builder.ConfigureAppConfiguration(static (context, config) =>
             {
-                var inMemorySettings = new Dictionary<string, string>
+                var env = new Dictionary<string, string?>
                 {
-                    { "DatabaseProvider", "InMemory" },
-                    { "DefaultDatabaseName", "ProductsTest" }
+                        { "DatabaseProvider", "InMemory" }
                 };
 
-                config.AddInMemoryCollection(inMemorySettings);
+                config.AddInMemoryCollection(env);
             });
         }
     }

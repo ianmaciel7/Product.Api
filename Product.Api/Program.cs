@@ -46,11 +46,15 @@ builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =
 
     var isInMemoryDatabase = databaseProvider == FeatureFlag.DatabaseProvider.InMemory;
     var isUseSqlServer = databaseProvider == FeatureFlag.DatabaseProvider.SqlServer;
-    options.UseSqlServer(defaultConnectionString);
 
-    if (isUseSqlServer && isInMemoryDatabase)
+
+    if (isInMemoryDatabase || isUseSqlServer && isInMemoryDatabase)
     {
         options.UseInMemoryDatabase(defaultDatabaseName);
+    }
+    else if (isUseSqlServer)
+    {
+        options.UseSqlServer(defaultConnectionString);
     }
 });
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -65,9 +69,6 @@ builder.Services.AddFeatureManagement();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
-
-//GET CONNECTION STRING
-var connectionString = app.Configuration.GetConnectionString("DefaultConnection");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
