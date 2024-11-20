@@ -32,7 +32,9 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Test
-      run: dotnet test ./Product.Api.sln --no-build --verbosity normal --logger "trx;LogFileName=test_results.trx"
+      run: |
+        dotnet test ./Product.Api.UnitTest/Product.Api.UnitTest.csproj --no-build --verbosity normal --logger "trx;LogFileName=test_results_unit.trx"
+        dotnet test ./Product.Api.IntegrationTest/Product.Api.IntegrationTest.csproj --no-build --verbosity normal --logger "trx;LogFileName=test_results_integration.trx"
 
   publish:
     environment: Development
