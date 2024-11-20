@@ -29,6 +29,8 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+      - name: Verify Output
+        run: ls -R Product.Api.UnitTest/bin/Release/net8.0/
       - name: Run Unit Tests
         run: dotnet vstest Product.Api.UnitTest/bin/Release/net8.0/Product.Api.UnitTest.dll --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
       - name: Run Integration Tests
