@@ -1,12 +1,5 @@
 name: .NET
 
-env:
-  ASPNETCORE_ENVIRONMENT: ${{ secrets.ASPNETCORE_ENVIRONMENT }}
-  ASPNETCORE_HTTPS_PORT: ${{ secrets.ASPNETCORE_HTTPS_PORT }}
-  ASPNETCORE_HTTP_PORT: ${{ secrets.ASPNETCORE_HTTP_PORT }}
-  ASPNETCORE_Kestrel__Certificates__Default__Path: ${{ secrets.ASPNETCORE_Kestrel__Certificates__Default__Path }}
-  ASPNETCORE_Kestrel__Certificates__Default__Password: ${{ secrets.ASPNETCORE_Kestrel__Certificates__Default__Password }}
-  
 on:
   push:
     branches: [ "main" ]
@@ -16,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: Development
 
     steps:
     - uses: actions/checkout@v4
@@ -52,7 +46,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Publish
-      run: dotnet publish ./Product.Api.sln -c ${{ secrets.ASPNETCORE_ENVIRONMENT }} -o ./publish
+      run: dotnet publish ./Product.Api.sln -c $ASPNETCORE_ENVIRONMENT -o ./publish
 
   upload:
     runs-on: ubuntu-latest
