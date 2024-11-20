@@ -19,6 +19,12 @@ jobs:
         run: dotnet restore Product.Api.sln
       - name: Build
         run: dotnet build Product.Api.sln --configuration Release
+      - name: Save Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            bin/Release/net8.0/*
 
   test:
     runs-on: ubuntu-latest
@@ -29,9 +35,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - name: Verify Output
-        run: ls -R Product.Api.UnitTest/bin/Release/net8.0/
-      - name: Run Unit Tests
-        run: dotnet vstest Product.Api.UnitTest/bin/Release/net8.0/Product.Api.UnitTest.dll --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
-      - name: Run Integration Tests
-        run: dotnet vstest Product.Api.IntegrationTest/bin/Release/net8.0/Product.Api.IntegrationTest.dll --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
+      - name: Restore Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+      - name: Run Tests
+        run: dotnet test Product.Api.sln --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
