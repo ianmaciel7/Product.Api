@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: Development
     steps:
       - uses: actions/checkout@v4
       - name: Setup .NET
@@ -18,17 +19,11 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Product.Api.sln
       - name: Build
-        run: dotnet build Product.Api.sln --configuration Release
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-artifacts
-          path: |
-            **/bin
-            **/obj
+        run: dotnet build Product.Api.sln --configuration $ASPNETCORE_ENVIRONMENT
 
   test:
     runs-on: ubuntu-latest
+    environment: Development 
     needs: build
     steps:
       - uses: actions/checkout@v4
@@ -36,9 +31,5 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifacts
       - name: Run Tests
-        run: dotnet test Product.Api.sln --configuration Release --verbosity normal --logger "trx;LogFileName=test_results.trx"
+        run: dotnet test Product.Api.sln --configuration $ASPNETCORE_ENVIRONMENT --verbosity normal --logger "trx;LogFileName=test_results.trx"
