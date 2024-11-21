@@ -19,7 +19,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Product.Api.sln
       - name: Build
-        run: dotnet build Product.Api.sln --configuration Debug --runtime linux-x64 --no-restore
+        run: dotnet build Product.Api.sln --configuration Release --runtime linux-x64 --no-restore
 
   test:
     runs-on: ubuntu-latest
