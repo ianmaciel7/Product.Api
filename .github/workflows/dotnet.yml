@@ -32,4 +32,4 @@ jobs:
         with:
           dotnet-version: '8.0.x'
       - name: Run Tests
-        run: dotnet test Product.Api.sln --configuration ${{ vars.ASPNETCORE_ENVIRONMENT }} --platform "Any CPU" --verbosity normal --logger "trx;LogFileName=test_results.trx"
+        run: dotnet test Product.Api.sln --configuration ${{ vars.ASPNETCORE_ENVIRONMENT }} --verbosity normal --logger "trx;LogFileName=test_results.trx"
