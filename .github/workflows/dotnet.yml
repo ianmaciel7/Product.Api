@@ -20,9 +20,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Product.Api.sln
       - name: Print ASPNETCORE_ENVIRONMENT
-        run: echo "ASPNETCORE_ENVIRONMENT = ${{ env.ASPNETCORE_ENVIRONMENT }}"
+        run: echo "ASPNETCORE_ENVIRONMENT = ${{ vars.ASPNETCORE_ENVIRONMENT }}"
       - name: Build
-        run: dotnet build Product.Api.sln --configuration ${{ env.ASPNETCORE_ENVIRONMENT }}
+        run: dotnet build Product.Api.sln --configuration ${{ vars.ASPNETCORE_ENVIRONMENT }}
 
   test:
     runs-on: ubuntu-latest
