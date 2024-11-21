@@ -19,7 +19,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Product.Api.sln
       - name: Build
-        run: dotnet build Product.Api.sln --configuration Release
+        run: dotnet build Product.Api.sln --configuration ${{ vars.ASPNETCORE_ENVIRONMENT }}
 
   test:
     runs-on: ubuntu-latest
