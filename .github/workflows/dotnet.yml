@@ -19,11 +19,11 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore Product.Api.sln
       - name: Build
-        run: dotnet build Product.Api.sln --configuration ${{ vars.ASPNETCORE_ENVIRONMENT }} --platform "Any CPU"
+        run: dotnet build Product.Api.sln --configuration ${{ vars.ASPNETCORE_ENVIRONMENT }} --runtime linux-x64 --no-restore
 
   test:
     runs-on: ubuntu-latest
-    environment: Development 
+    environment: Development
     needs: build
     steps:
       - uses: actions/checkout@v4
