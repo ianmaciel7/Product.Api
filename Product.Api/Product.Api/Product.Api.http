@@ -1,0 +1,10 @@
+@Product.Api_HostAddress=http://localhost:5066
+
+GET {{Product.Api_HostAddress}}/openapi/V1
+Accept: application/json
+
+GET {{Product.Api_HostAddress}}/openapi/v1.json
+Accept: application/json
+
+GET {{Product.Api_HostAddress}}/hello/
+Accept: application/json
