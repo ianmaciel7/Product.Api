@@ -1,6 +1,6 @@
 ﻿namespace Product.Api.Models.ValueObjects
 {
-    public interface IPrimaryKey
+    public interface IKey
     {
     }
 }
