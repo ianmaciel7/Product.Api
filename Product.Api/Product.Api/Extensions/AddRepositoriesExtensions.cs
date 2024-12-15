@@ -26,6 +26,8 @@ namespace Product.Api.Extensions
                 options.UseInMemoryDatabase(dbname);
             });
             services.AddScoped<IProductRepository, ProductRepository>();
+
+
             services.AddScoped<IGenericRepository<Models.Product, ProductId>, Repository<Models.Product, ProductId>>();
             services.AddScoped<IGenericRepository<Models.Category, CategoryId>, Repository<Models.Category, CategoryId>>();
         }

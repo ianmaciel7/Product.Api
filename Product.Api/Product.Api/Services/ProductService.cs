@@ -5,7 +5,7 @@ using CommunityToolkit.Diagnostics;
 
 namespace Product.Api.Services
 {
-    public class ProductService(ProductRepository productRepository) : IProductService
+    public class ProductService(IProductRepository productRepository) : IProductService
     {
         public async Task<Models.Product> CreateAsync(Models.Product entity)
         {

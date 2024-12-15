@@ -1,5 +1,6 @@
 using Scalar.AspNetCore;
 using Product.Api.Extensions;
+using Product.Api.Endpoints.V1;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddServices();
 builder.Services.AddRepositories();
 
 var app = builder.Build();
+app.MapProductEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
