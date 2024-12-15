@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.EntityFrameworkCore;
 using Product.Api.Models.ValueObjects;
 
 namespace Product.Api.Repositories
@@ -13,6 +14,11 @@ namespace Product.Api.Repositories
         public Task<IEnumerable<Models.Product>> GetAllAsync()
         {
             return repository.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<Models.Product>> GetAllByCategoryIdAsync(CategoryId categoryId)
+        {
+            return await repository.DbSet.Where(p => p.CategoryId == categoryId).ToListAsync();
         }
 
         public Task<Models.Product?> GetByIdAsync(ProductId id)

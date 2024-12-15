@@ -6,7 +6,7 @@ namespace Product.Api.Repositories
 {
     public class Repository<T, TKey>(ApplicationDbContext dbContext) : IGenericRepository<T, TKey> where T : class
     {
-        private DbSet<T> DbSet => dbContext.Set<T>();
+        public DbSet<T> DbSet => dbContext.Set<T>();
 
         public async Task<EntityEntry<T>?> CreateByEntry(T entity)
         {

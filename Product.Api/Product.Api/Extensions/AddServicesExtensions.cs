@@ -1,5 +1,4 @@
-﻿using Product.Api.Repositories;
-using Product.Api.Services;
+﻿using Product.Api.Services;
 
 namespace Product.Api.Extensions
 {
@@ -8,7 +7,6 @@ namespace Product.Api.Extensions
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IProductRepository, ProductRepository>();
         }
     }
 }
