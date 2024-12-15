@@ -11,31 +11,22 @@ namespace Product.Api.Endpoints.V1
         {
             routes.MapGet($"{Base}/{{productId:int}}", async (ProductId productId, IProductService productService) =>
             {
-                var product = await productService.GetByIdAsync(productId);
-                return product is not null ? Results.Ok(product) : Results.NotFound();
-            });
+                return await productService.GetByIdAsync(productId);
+            }).WithName("GetProductById");
 
             routes.MapPost(Base, async (Models.Product product,IProductService productService)  =>
             {
-                var created = await productService.CreateAsync(product);
-                return Results.Created($"{Base}/{product.ProductId}", created);
+                return await productService.CreateAsync(product);
             });
 
             routes.MapPut($"{Base}/{{productId:int?}}", async (ProductId? productId,Models.Product product,IProductService productService) =>
             {
-                if (productId is null)
-                {
-                    return Results.Created($"{Base}/{product.ProductId}", await productService.CreateAsync(product));
-                }
-
-                var updated = await productService.UpdateAsync(productId,product);
-                return Results.Ok(updated);
+                return await productService.UpdateAsync(productId, product);
             });
 
             routes.MapDelete($"{Base}/{{productId:int}}", async (ProductId productId,IProductService productService) =>
             {
-                var product = await productService.RemoveAsync(productId);
-                return Results.NoContent();
+                return await productService.RemoveAsync(productId);
             });
         }
     }

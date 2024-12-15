@@ -3,58 +3,79 @@ using Product.Api.Models.ValueObjects;
 using Product.Api.Repositories;
 using CommunityToolkit.Diagnostics;
 
+
 namespace Product.Api.Services
 {
-    public class ProductService(IProductRepository productRepository) : IProductService
+    public class ProductService(IProductRepository productRepository,LinkGenerator linkGenerator) : IProductService
     {
-        public async Task<Models.Product> CreateAsync(Models.Product entity)
+
+        private Func<ProductId, string?> _generatorUri = (productId) => linkGenerator.GetUriByAction(
+            httpContext: new DefaultHttpContext(),
+            action: "GetProductById",
+            controller: "Products",
+            values: new { ProductId = productId.Value }
+        );
+
+        public async Task<IResult> CreateAsync(Models.Product entity)
         {
             var product = await productRepository.CreateAsync(entity);
             Guard.IsNull(product, nameof(product));
-            return product!;
+            var uri = _generatorUri(product!.ProductId);
+            return Results.Created(uri, product);
         }
 
-        public async Task<bool> RemoveAsync(ProductId id)
+        public async Task<IResult> RemoveAsync(ProductId id)
+        {
+            Guard.IsNotNull(id, nameof(id));
+            var product = await productRepository.GetByIdAsync(id);
+            if (product is null)
+            {
+                return Results.NotFound();
+            }
+            Guard.IsNull(product, nameof(product));
+            productRepository.Remove(product!);
+            return Results.NoContent();
+        }
+
+        public async Task<IResult> GetAllAsync()
+        {
+            var products = await productRepository.GetAllAsync() ?? [];
+            return Results.Ok(products);
+        }
+
+        public async Task<IResult> GetByIdAsync(ProductId id)
         {
             Guard.IsNotNull(id, nameof(id));
             var product = await productRepository.GetByIdAsync(id);
             Guard.IsNull(product, nameof(product));
-            return productRepository.Remove(product!);
+            if (product is null)
+            {
+                return Results.NotFound();
+            }
+            return Results.Ok(product);
         }
 
-        public Task<IEnumerable<Models.Product>> GetAllAsync()
-        {
-            return productRepository.GetAllAsync();
-        }
-
-        public Task<Models.Product> GetByIdAsync(ProductId id)
-        {
-            Guard.IsNotNull(id, nameof(id));
-            var product = productRepository.GetByIdAsync(id);
-            Guard.IsNull(product, nameof(product));
-            return product!;
-        }
-
-        public async Task<Models.Product> UpdateAsync(ProductId? productId, Models.Product product)
+        public async Task<IResult> UpdateAsync(ProductId? productId, Models.Product product)
         {
             Guard.IsNull(product, nameof(product));
             if (productId is null)
             {
                 Guard.IsNull(product, nameof(product));
-                var created = await productRepository.CreateAsync(product);
-                return created!;
+                var created = await productRepository.CreateAsync(product);  
+                var uri = _generatorUri(created!.ProductId);
+                return Results.Created(uri, created);
             }
             var entity = await productRepository.GetByIdAsync(productId);
             Guard.IsNull(entity, nameof(entity));
-            return productRepository.Update(entity!);
+            var updated = productRepository.Update(product);
+            return Results.Ok(updated);
         }
 
-        public async Task<IEnumerable<Models.Product>> GetAllAsync(CategoryId categoryId)
+        public async Task<IResult> GetAllAsync(CategoryId categoryId)
         {
             Guard.IsNotNull(categoryId, nameof(categoryId));
-            var products = await productRepository.GetAllByCategoryIdAsync(categoryId);
-            Guard.IsNull(products, nameof(products));
-            return products ?? [];
+            var products = await productRepository.GetAllByCategoryIdAsync(categoryId) ?? [];
+            return Results.Ok(products);
         }
     }
 }

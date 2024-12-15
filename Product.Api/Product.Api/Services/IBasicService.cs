@@ -2,10 +2,10 @@
 {
     public interface IBasicService<T, TKey>
     {
-        Task<T> CreateAsync(T entity);
-        Task<T> GetByIdAsync(TKey id);
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<T> UpdateAsync(TKey? id,T entity);
-        Task<bool> RemoveAsync(TKey id);
+        Task<IResult> CreateAsync(T entity);
+        Task<IResult> GetByIdAsync(TKey id);
+        Task<IResult> GetAllAsync();
+        Task<IResult> UpdateAsync(TKey? id,T entity);
+        Task<IResult> RemoveAsync(TKey id);
     }
 }
