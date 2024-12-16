@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Product.Api.Models.ValueObjects;
 
 namespace Product.Api.Configurations
 {
@@ -8,13 +7,6 @@ namespace Product.Api.Configurations
     {
         public void Configure(EntityTypeBuilder<Models.Product> builder)
         {
-            builder.HasKey(p => p.ProductId);
-
-            builder.Property(p => p.CategoryId)
-                .HasConversion(
-                    v => v.ToString(),
-                    v => new CategoryId(Guid.Parse(v))
-                );
 
         }
     }

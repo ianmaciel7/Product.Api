@@ -1,9 +1,8 @@
 ﻿using Product.Api.Models;
-using Product.Api.Models.ValueObjects;
 
 namespace Product.Api.Repositories
 {
-    public class CategoryRepostiory(IGenericRepository<Models.Category, CategoryId> repository) : ICategoryRepostiory
+    public class CategoryRepostiory(IGenericRepository<Models.Category, Guid> repository) : ICategoryRepostiory
     {
         public Task<Category> CreateAsync(Category entity)
         {
@@ -15,7 +14,7 @@ namespace Product.Api.Repositories
             return repository.GetAllAsync();
         }
 
-        public Task<Category?> GetByIdAsync(CategoryId id)
+        public Task<Category?> GetByIdAsync(Guid id)
         {
             return repository.GetByIdAsync(id);
         }

@@ -2,32 +2,27 @@
 using CommunityToolkit.Diagnostics;
 using Product.Api.Dtos;
 using Product.Api.Models;
-using Product.Api.Models.ValueObjects;
 using Product.Api.Repositories;
 
 namespace Product.Api.Services
 {
     public class CategoryService(ICategoryRepostiory categoryRepostiory, LinkGenerator linkGenerator, IMapper mapper) : ICategoryService
     {
-        private readonly Func<CategoryId, string?> _generatorUri = (CategoryId categoryId) => linkGenerator.GetUriByAction(
+        private readonly Func<Guid, string?> _generatorUri = (Guid categoryId) => linkGenerator.GetUriByAction(
             httpContext: new DefaultHttpContext(),
             action: "GetCategoryById",
             controller: "Categories",
             values: new { CategoryId = categoryId }
         );
 
-
-        public async Task<IResult> CreateAsync(Category entity)
+        public async Task<IResult> CreateAsync(CategoryDto dto)
         {
+            var entity = mapper.Map<Category>(dto);
             var category = await categoryRepostiory.CreateAsync(entity);
+            await categoryRepostiory.SaveAsync();
             Guard.IsNotNull(category, nameof(category));
             var uri = _generatorUri(category!.CategoryId);
             return Results.Created(uri, category);
-        }
-
-        public Task<IResult> CreateAsync(CategoryDto category)
-        {
-            return CreateAsync(mapper.Map<Category>(category));
         }
 
         public async Task<IResult> GetAllAsync()
@@ -36,7 +31,7 @@ namespace Product.Api.Services
             return Results.Ok(categories);
         }
 
-        public async Task<IResult> GetAllProductsAsync(CategoryId categoryId)
+        public async Task<IResult> GetAllProductsAsync(Guid categoryId)
         {
             var category = await categoryRepostiory.GetByIdAsync(categoryId);
             if (category is null)
@@ -47,7 +42,7 @@ namespace Product.Api.Services
             return Results.Ok(products);
         }
 
-        public async Task<IResult> GetByIdAsync(CategoryId id)
+        public async Task<IResult> GetByIdAsync(Guid id)
         {
             var category = await categoryRepostiory.GetByIdAsync(id);
             if (category is null)
@@ -57,7 +52,7 @@ namespace Product.Api.Services
             return Results.Ok(category);
         }
 
-        public async Task<IResult> RemoveAsync(CategoryId id)
+        public async Task<IResult> RemoveAsync(Guid id)
         {
             var category = await categoryRepostiory.GetByIdAsync(id);
             if (category is null)
@@ -66,28 +61,28 @@ namespace Product.Api.Services
             }
             Guard.IsNull(category, nameof(category));
             categoryRepostiory.Remove(category!);
+            await categoryRepostiory.SaveAsync();
             return Results.NoContent();
         }
 
-        public async Task<IResult> UpdateAsync(CategoryId? productId, Category category)
+        public async Task<IResult> UpdateAsync(Guid? id, CategoryDto dto)
         {
-            Guard.IsNotNull(category, nameof(category));
-            if (productId is null)
+            Guard.IsNotNull(dto, nameof(dto));
+            var category = mapper.Map<Category>(dto);
+            if (id is null)
             {
                 category = await categoryRepostiory.CreateAsync(category);
                 var uri = _generatorUri(category!.CategoryId);
                 return Results.Created(uri, category);
             }
-            category = await categoryRepostiory.GetByIdAsync(productId);
+            category = await categoryRepostiory.GetByIdAsync(id.GetValueOrDefault());
             category = categoryRepostiory.Update(category!);
             return Results.Ok(category);
-
         }
 
-        public Task<IResult> UpdateAsync(CategoryId categoryId, CategoryDto dto)
+        public Task<IResult> UpdateAsync(Guid id, CategoryDto dto)
         {
-           var category = mapper.Map<Category>(dto);
-           return UpdateAsync(categoryId, category);
+            return UpdateAsync(id, dto);
         }
     }
 }

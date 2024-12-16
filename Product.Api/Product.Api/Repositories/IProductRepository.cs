@@ -1,9 +1,7 @@
-﻿using Product.Api.Models.ValueObjects;
-
-namespace Product.Api.Repositories
+﻿namespace Product.Api.Repositories
 {
-    public interface IProductRepository : IRepository<Models.Product, ProductId>
+    public interface IProductRepository : IRepository<Models.Product, Guid>
     {
-        public Task<IEnumerable<Models.Product>> GetAllByCategoryIdAsync(CategoryId categoryId);
+        public Task<IEnumerable<Models.Product>> GetAllByCategoryIdAsync(Guid categoryId);
     }
 }

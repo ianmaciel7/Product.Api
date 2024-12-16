@@ -23,4 +23,8 @@
     <PackageReference Include="Scalar.AspNetCore" Version="1.2.53" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
+
 </Project>

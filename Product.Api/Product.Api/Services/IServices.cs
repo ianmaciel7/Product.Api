@@ -4,12 +4,12 @@
     {
     }
 
-    public interface IServices<T, TKey> : IServices
+    public interface IServices<TDto, TKey> : IServices
     {
-        Task<IResult> CreateAsync(T entity);
+        Task<IResult> CreateAsync(TDto dto);
         Task<IResult> GetByIdAsync(TKey id);
         Task<IResult> GetAllAsync();
-        Task<IResult> UpdateAsync(TKey? id, T entity);
+        Task<IResult> UpdateAsync(TKey? id, TDto dto);
         Task<IResult> RemoveAsync(TKey id);
     }
 }

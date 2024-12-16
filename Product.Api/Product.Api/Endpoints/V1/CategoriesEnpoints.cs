@@ -1,5 +1,5 @@
 ﻿using Product.Api.Dtos;
-using Product.Api.Models.ValueObjects;
+
 using Product.Api.Services;
 
 namespace Product.Api.Endpoints.V1
@@ -16,7 +16,7 @@ namespace Product.Api.Endpoints.V1
                 return await categoryService.GetAllAsync();
             });
 
-            group.MapGet("{categoryId}", async (CategoryId categoryId, ICategoryService categoryService) =>
+            group.MapGet("{categoryId}", async (Guid categoryId, ICategoryService categoryService) =>
             {
                 return await categoryService.GetByIdAsync(categoryId);
             }).WithName("GetCategoryById");
@@ -26,17 +26,17 @@ namespace Product.Api.Endpoints.V1
                 return await categoryService.CreateAsync(category);
             });
 
-            group.MapPut("{categoryId}", async (CategoryId? categoryId, CategoryDto category, ICategoryService categoryService) =>
+            group.MapPut("{categoryId}", async (Guid? categoryId, CategoryDto category, ICategoryService categoryService) =>
             {
                 return await categoryService.UpdateAsync(categoryId, category);
             });
 
-            group.MapDelete("{categoryId}", async (CategoryId categoryId, ICategoryService categoryService) =>
+            group.MapDelete("{categoryId}", async (Guid categoryId, ICategoryService categoryService) =>
             {
                 return await categoryService.RemoveAsync(categoryId);
             });
 
-            group.MapGet("{categoryId}/products", async (CategoryId categoryId, ICategoryService categoryService) =>
+            group.MapGet("{categoryId}/products", async (Guid categoryId, ICategoryService categoryService) =>
             {
                 return await categoryService.GetAllProductsAsync(categoryId);
             });

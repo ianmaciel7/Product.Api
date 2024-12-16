@@ -1,12 +1,10 @@
 ﻿using Product.Api.Dtos;
-using Product.Api.Models.ValueObjects;
 
 namespace Product.Api.Services
 {
-    public interface ICategoryService : IServices<Models.Category, CategoryId>
+    public interface ICategoryService : IServices<CategoryDto, Guid>
     {
-        Task<IResult> CreateAsync(CategoryDto category);
-        Task<IResult> GetAllProductsAsync(CategoryId categoryId);
-        Task<IResult> UpdateAsync(CategoryId? categoryId, CategoryDto category);
+        Task<IResult> GetAllProductsAsync(Guid categoryId);
+        Task<IResult> UpdateAsync(Guid? id, CategoryDto dto);
     }
 }

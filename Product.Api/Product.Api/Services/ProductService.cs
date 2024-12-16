@@ -1,97 +1,85 @@
-﻿
-using Product.Api.Models.ValueObjects;
-using Product.Api.Repositories;
+﻿using Product.Api.Repositories;
 using CommunityToolkit.Diagnostics;
 using AutoMapper;
 using Product.Api.Dtos;
 
-
 namespace Product.Api.Services
 {
-    public class ProductService(IProductRepository productRepository,LinkGenerator linkGenerator, IMapper? mapper) : IProductService
+    public class ProductService(IProductRepository productRepository, LinkGenerator linkGenerator, IMapper mapper) : IProductService
     {
 
-        private Func<ProductId, string?> _generatorUri = (productId) => linkGenerator.GetUriByAction(
+        private Func<Guid, string?> _generatorUri = (productId) => linkGenerator.GetUriByAction(
             httpContext: new DefaultHttpContext(),
             action: "GetProductById",
             controller: "Products",
-            values: new { ProductId = productId.Value }
+            values: new { ProductId = productId }
         );
 
-        public async Task<IResult> CreateAsync(Models.Product entity)
+        public async Task<IResult> CreateAsync(ProductDto dto)
         {
-            var product = await productRepository.CreateAsync(entity);
+            var entity = mapper.Map<Models.Product>(dto);
+            await productRepository.CreateAsync(entity);
             await productRepository.SaveAsync();
-            Guard.IsNull(product, nameof(product));
-            var uri = _generatorUri(product!.ProductId);
-            return Results.Created(uri, product);
-        }
+            Guard.IsNull(entity, nameof(entity));
 
-        public async Task<IResult> RemoveAsync(ProductId? id)
-        {
-            Guard.IsNotNull(id, nameof(id));
-            var product = await productRepository.GetByIdAsync(id);
-            if (product is null)
-            {
-                return Results.NotFound();
-            }
-            Guard.IsNull(product, nameof(product));
-            productRepository.Remove(product!);
-            await productRepository.SaveAsync();
-            return Results.NoContent();
+            var uri = _generatorUri(entity!.ProductId);
+            return Results.Created(uri, entity);
         }
 
         public async Task<IResult> GetAllAsync()
         {
-            var products = await productRepository.GetAllAsync() ?? [];
-            return Results.Ok(products);
+            var entites = await productRepository.GetAllAsync() ?? [];
+            return Results.Ok(entites);
         }
 
-        public async Task<IResult> GetByIdAsync(ProductId? id)
+        public async Task<IResult> GetByIdAsync(Guid id)
         {
             Guard.IsNotNull(id, nameof(id));
-            var product = await productRepository.GetByIdAsync(id);
-            Guard.IsNull(product, nameof(product));
-            if (product is null)
+            var entity = await productRepository.GetByIdAsync(id);
+            Guard.IsNull(entity, nameof(entity));
+            if (entity is null)
             {
                 return Results.NotFound();
             }
-            return Results.Ok(product);
+            return Results.Ok(entity);
         }
 
-        public async Task<IResult> UpdateAsync(ProductId? productId, Models.Product product)
+        public async Task<IResult> RemoveAsync(Guid id)
         {
-            Guard.IsNull(product, nameof(product));
-            if (productId is null)
+            Guard.IsNotNull(id, nameof(id));
+            var entity = await productRepository.GetByIdAsync(id);
+            if (entity is null)
             {
-                product = await productRepository.CreateAsync(product);
+                return Results.NotFound();
+            }
+            Guard.IsNull(entity, nameof(entity));
+            productRepository.Remove(entity!);
+            await productRepository.SaveAsync();
+            return Results.NoContent();
+        }
+
+        public async Task<IResult> UpdateAsync(Guid? id, ProductDto dto)
+        {
+            var entity = mapper.Map<Models.Product>(dto);
+            Guard.IsNull(entity, nameof(entity));
+            if (id is null)
+            {
+                entity = await productRepository.CreateAsync(entity);
                 await productRepository.SaveAsync();
-                var uri = _generatorUri(product!.ProductId);
-                return Results.Created(uri, product);
+                var uri = _generatorUri(entity!.ProductId);
+                return Results.Created(uri, entity);
             }
 
-            product = await productRepository.GetByIdAsync(productId);
-            Guard.IsNull(product, nameof(product));
-            var updated = productRepository.Update(product!);
+            entity = await productRepository.GetByIdAsync(id.GetValueOrDefault());
+            Guard.IsNull(entity, nameof(entity));
+            productRepository.Update(entity!);
             await productRepository.SaveAsync();
-            return Results.Ok(updated);
+            return Results.Ok(entity);
         }
 
-        public async Task<IResult> GetAllAsync(CategoryId? categoryId)
+        public Task<IResult> UpdateAsync(Guid id, ProductDto dto)
         {
-            Guard.IsNotNull(categoryId, nameof(categoryId));
-            var products = await productRepository.GetAllByCategoryIdAsync(categoryId) ?? [];
-            return Results.Ok(products);
-        }
-
-        public Task<IResult> CreateAsync(ProductDto product)
-        {
-           return CreateAsync(mapper?.Map<Models.Product>(product));
-        }
-
-        public Task<IResult> UpdateAsync(ProductId? productId, ProductDto product)
-        {
-            return UpdateAsync(productId, mapper?.Map<Models.Product>(product));
+            return UpdateAsync(id, dto);
         }
     }
 }

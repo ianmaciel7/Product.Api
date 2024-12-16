@@ -1,10 +1,9 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using Product.Api.Models.ValueObjects;
 
 namespace Product.Api.Repositories
 {
-    public class ProductRepository(IGenericRepository<Models.Product,ProductId> repository) : IProductRepository
+    public class ProductRepository(IGenericRepository<Models.Product,Guid> repository) : IProductRepository
     {
         public Task<Models.Product> CreateAsync(Models.Product entity)
         {
@@ -16,12 +15,12 @@ namespace Product.Api.Repositories
             return repository.GetAllAsync();
         }
 
-        public async Task<IEnumerable<Models.Product>> GetAllByCategoryIdAsync(CategoryId categoryId)
+        public async Task<IEnumerable<Models.Product>> GetAllByCategoryIdAsync(Guid categoryId)
         {
             return await repository.DbSet.Where(p => p.CategoryId == categoryId).ToListAsync();
         }
 
-        public Task<Models.Product?> GetByIdAsync(ProductId id)
+        public Task<Models.Product?> GetByIdAsync(Guid id)
         {
             return repository.GetByIdAsync(id);
         }

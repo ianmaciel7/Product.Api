@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Product.Api.Data;
-using Product.Api.Models.ValueObjects;
 using Product.Api.Options;
 using Product.Api.Repositories;
 
@@ -35,8 +34,8 @@ namespace Product.Api.Extensions
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICategoryRepostiory, CategoryRepostiory>();
 
-            services.AddScoped<IGenericRepository<Models.Product, ProductId>, GenericRepository<Models.Product, ProductId>>();
-            services.AddScoped<IGenericRepository<Models.Category, CategoryId>, GenericRepository<Models.Category, CategoryId>>();
+            services.AddScoped<IGenericRepository<Models.Product, Guid>, GenericRepository<Models.Product, Guid>>();
+            services.AddScoped<IGenericRepository<Models.Category, Guid>, GenericRepository<Models.Category, Guid>>();
         }
     }
 }
