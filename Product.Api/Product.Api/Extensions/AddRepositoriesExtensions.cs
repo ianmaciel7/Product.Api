@@ -14,7 +14,7 @@ namespace Product.Api.Extensions
         {
             var featureFlagsOptions = services.BuildServiceProvider().GetRequiredService<IOptions<FeatureFlagsOptions>>().Value;
             var connectionString = services.BuildServiceProvider().GetRequiredService<IConfiguration>().GetConnectionString("DefaultConnection");
-            var dbname = new SqlConnectionStringBuilder(connectionString).InitialCatalog;
+            
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -23,13 +23,20 @@ namespace Product.Api.Extensions
                     options.UseSqlServer(connectionString);
                     return;
                 }
-                options.UseInMemoryDatabase(dbname);
+                if (featureFlagsOptions.UseInMemoryDatabase)
+                {
+                    var sqlConnection = new SqlConnectionStringBuilder(connectionString);
+                    var dbname = sqlConnection.InitialCatalog;
+                    options.UseInMemoryDatabase(dbname);
+                    return;
+                }
+                throw new InvalidOperationException("No database provider was configured.");
             });
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICategoryRepostiory, CategoryRepostiory>();
 
-
-            services.AddScoped<IGenericRepository<Models.Product, ProductId>, Repository<Models.Product, ProductId>>();
-            services.AddScoped<IGenericRepository<Models.Category, CategoryId>, Repository<Models.Category, CategoryId>>();
+            services.AddScoped<IGenericRepository<Models.Product, ProductId>, GenericRepository<Models.Product, ProductId>>();
+            services.AddScoped<IGenericRepository<Models.Category, CategoryId>, GenericRepository<Models.Category, CategoryId>>();
         }
     }
 }

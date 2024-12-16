@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Product.Api.Repositories
 {
-    public interface IGenericRepository<T,TKey> : IBasicRepository<T,TKey> where T : class
+    public interface IGenericRepository<T,TKey> : IRepository<T,TKey> where T : class
     {
         DbSet<T> DbSet { get; }
-        Task<EntityEntry<T>?> CreateByEntry(T entity);
+        Task<EntityEntry<T>> CreateByEntry(T entity);
         EntityEntry<T> UpdateByEntry(T entity);
     }
 }

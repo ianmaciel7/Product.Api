@@ -10,6 +10,5 @@ namespace Product.Api.Models
         public required string Description { get; set; }
         public required CategoryId CategoryId { get; set; }
         public Category? Category { get; set; }
-
     }
 }

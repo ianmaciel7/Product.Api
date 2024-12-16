@@ -7,6 +7,7 @@ namespace Product.Api.Extensions
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Product.Api.Models;
+﻿using Product.Api.Dtos;
 using Product.Api.Models.ValueObjects;
 using Product.Api.Services;
 
@@ -6,31 +6,40 @@ namespace Product.Api.Endpoints.V1
 {
     public static class CategoriesEnpoints
     {
-        const string Base = "/api/v1/categories";
+
         public static void MapCategoriesEndpoints(this IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapGet("{Base}", async (ICategoryService categoryService) =>
-            {        
+            var group = endpoints.MapGroup("v1/categories").WithTags("Categories");
+
+            group.MapGet("", async (ICategoryService categoryService) =>
+            {
                 return await categoryService.GetAllAsync();
             });
-            endpoints.MapGet("{Base}/{categoryId:int}", async (CategoryId categoryId, ICategoryService categoryService) =>
+
+            group.MapGet("{categoryId}", async (CategoryId categoryId, ICategoryService categoryService) =>
             {
                 return await categoryService.GetByIdAsync(categoryId);
-            });
-            endpoints.MapPost("{Base}", async (Category category, ICategoryService categoryService) =>
+            }).WithName("GetCategoryById");
+
+            group.MapPost("", async (CategoryDto category, ICategoryService categoryService) =>
             {
                 return await categoryService.CreateAsync(category);
             });
-            endpoints.MapPut("{Base}/{categoryId:int}", async (CategoryId? categoryId, Category category, ICategoryService categoryService) =>
+
+            group.MapPut("{categoryId}", async (CategoryId? categoryId, CategoryDto category, ICategoryService categoryService) =>
             {
-                return await categoryService.CreateAsync(category);
+                return await categoryService.UpdateAsync(categoryId, category);
             });
-            endpoints.MapDelete("{Base}/{id}", async (CategoryId categoryId, ICategoryService categoryService) =>
+
+            group.MapDelete("{categoryId}", async (CategoryId categoryId, ICategoryService categoryService) =>
             {
                 return await categoryService.RemoveAsync(categoryId);
             });
+
+            group.MapGet("{categoryId}/products", async (CategoryId categoryId, ICategoryService categoryService) =>
+            {
+                return await categoryService.GetAllProductsAsync(categoryId);
+            });
         }
-
-
     }
 }

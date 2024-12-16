@@ -6,7 +6,7 @@ namespace Product.Api.Repositories
 {
     public class ProductRepository(IGenericRepository<Models.Product,ProductId> repository) : IProductRepository
     {
-        public Task<Models.Product?> CreateAsync(Models.Product entity)
+        public Task<Models.Product> CreateAsync(Models.Product entity)
         {
             return repository.CreateAsync(entity);
         }
