@@ -1,4 +1,8 @@
-﻿namespace Product.Api.Services
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Product.Api.Dtos.Reponses;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Product.Api.Services
 {
     public interface IServices
     {

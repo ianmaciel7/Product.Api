@@ -1,4 +1,6 @@
-﻿using Product.Api.Dtos.Requests;
+﻿using Product.Api.Constants;
+using Product.Api.Dtos.Reponses;
+using Product.Api.Dtos.Requests;
 using Product.Api.Services;
 
 namespace Product.Api.Endpoints.V1
@@ -7,27 +9,34 @@ namespace Product.Api.Endpoints.V1
     {
         public static void MapProductEndpoints(this IEndpointRouteBuilder routes)
         {
-            var group = routes.MapGroup("v1/products").WithTags("Products");
+            var group = routes.MapGroup("v1/products")
+                              .WithTags(Tag.Products)
+                              .ProducesProblem(StatusCodes.Status400BadRequest);
 
             group.MapGet("{productId}", async (Guid productId, IProductService productService) =>
             {
                 return await productService.GetByIdAsync(productId);
-            }).WithName("GetProductById");
+            })
+            .WithName(Name.GetProductById)
+            .Produces<IEnumerable<ProductReponse>>(StatusCodes.Status200OK);
 
             group.MapPost("", async (ProductRequest product, IProductService productService) =>
             {
                 return await productService.CreateAsync(product);
-            });
+            })
+            .Produces<ProductReponse>(StatusCodes.Status200OK);
 
             group.MapPut("{productId}", async (Guid? productId, ProductRequest product, IProductService productService) =>
             {
                 return await productService.UpdateAsync(productId, product);
-            });
+            })
+            .Produces<ProductReponse>(StatusCodes.Status200OK); ;
 
             group.MapDelete("{productId}", async (Guid productId, IProductService productService) =>
             {
                 return await productService.RemoveAsync(productId);
-            });
+            })
+            .Produces<ProductReponse>(StatusCodes.Status200OK); ;
         }
     }
 }
