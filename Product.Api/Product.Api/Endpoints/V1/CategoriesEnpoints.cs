@@ -1,5 +1,4 @@
-﻿using Product.Api.Dtos;
-
+﻿using Product.Api.Dtos.Requests;
 using Product.Api.Services;
 
 namespace Product.Api.Endpoints.V1
@@ -21,12 +20,12 @@ namespace Product.Api.Endpoints.V1
                 return await categoryService.GetByIdAsync(categoryId);
             }).WithName("GetCategoryById");
 
-            group.MapPost("", async (CategoryDto category, ICategoryService categoryService) =>
+            group.MapPost("", async (CategoryRequest category, ICategoryService categoryService) =>
             {
                 return await categoryService.CreateAsync(category);
             });
 
-            group.MapPut("{categoryId}", async (Guid? categoryId, CategoryDto category, ICategoryService categoryService) =>
+            group.MapPut("{categoryId}", async (Guid? categoryId, CategoryRequest category, ICategoryService categoryService) =>
             {
                 return await categoryService.UpdateAsync(categoryId, category);
             });

@@ -1,4 +1,4 @@
-﻿using Product.Api.Dtos;
+﻿using Product.Api.Dtos.Requests;
 using Product.Api.Services;
 
 namespace Product.Api.Endpoints.V1
@@ -14,12 +14,12 @@ namespace Product.Api.Endpoints.V1
                 return await productService.GetByIdAsync(productId);
             }).WithName("GetProductById");
 
-            group.MapPost("", async (ProductDto product, IProductService productService) =>
+            group.MapPost("", async (ProductRequest product, IProductService productService) =>
             {
                 return await productService.CreateAsync(product);
             });
 
-            group.MapPut("{productId}", async (Guid? productId, ProductDto product, IProductService productService) =>
+            group.MapPut("{productId}", async (Guid? productId, ProductRequest product, IProductService productService) =>
             {
                 return await productService.UpdateAsync(productId, product);
             });

@@ -1,7 +1,7 @@
 ﻿using Product.Api.Repositories;
 using CommunityToolkit.Diagnostics;
 using AutoMapper;
-using Product.Api.Dtos;
+using Product.Api.Dtos.Requests;
 
 namespace Product.Api.Services
 {
@@ -15,7 +15,7 @@ namespace Product.Api.Services
             values: new { ProductId = productId }
         );
 
-        public async Task<IResult> CreateAsync(ProductDto dto)
+        public async Task<IResult> CreateAsync(ProductRequest dto)
         {
             var entity = mapper.Map<Models.Product>(dto);
             await productRepository.CreateAsync(entity);
@@ -58,7 +58,7 @@ namespace Product.Api.Services
             return Results.NoContent();
         }
 
-        public async Task<IResult> UpdateAsync(Guid? id, ProductDto dto)
+        public async Task<IResult> UpdateAsync(Guid? id, ProductRequest dto)
         {
             var entity = mapper.Map<Models.Product>(dto);
             Guard.IsNull(entity, nameof(entity));
@@ -77,7 +77,7 @@ namespace Product.Api.Services
             return Results.Ok(entity);
         }
 
-        public Task<IResult> UpdateAsync(Guid id, ProductDto dto)
+        public Task<IResult> UpdateAsync(Guid id, ProductRequest dto)
         {
             return UpdateAsync(id, dto);
         }

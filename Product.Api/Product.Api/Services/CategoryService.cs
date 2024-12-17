@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CommunityToolkit.Diagnostics;
-using Product.Api.Dtos;
+using Product.Api.Dtos.Requests;
 using Product.Api.Models;
 using Product.Api.Repositories;
 
@@ -15,7 +15,7 @@ namespace Product.Api.Services
             values: new { CategoryId = categoryId }
         );
 
-        public async Task<IResult> CreateAsync(CategoryDto dto)
+        public async Task<IResult> CreateAsync(CategoryRequest dto)
         {
             var entity = mapper.Map<Category>(dto);
             var category = await categoryRepostiory.CreateAsync(entity);
@@ -97,7 +97,7 @@ namespace Product.Api.Services
             return Results.NoContent();
         }
 
-        public async Task<IResult> UpdateAsync(Guid? id, CategoryDto dto)
+        public async Task<IResult> UpdateAsync(Guid? id, CategoryRequest dto)
         {
             Guard.IsNotNull(dto, nameof(dto));
             var category = mapper.Map<Category>(dto);
@@ -112,7 +112,7 @@ namespace Product.Api.Services
             return Results.Ok(category);
         }
 
-        public Task<IResult> UpdateAsync(Guid id, CategoryDto dto)
+        public Task<IResult> UpdateAsync(Guid id, CategoryRequest dto)
         {
             return UpdateAsync(id, dto);
         }

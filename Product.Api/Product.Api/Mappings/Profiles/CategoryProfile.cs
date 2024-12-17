@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Product.Api.Dtos.Reponses;
+using Product.Api.Dtos.Requests;
 
 namespace Product.Api.Mappings.Profiles
 {
@@ -6,8 +8,13 @@ namespace Product.Api.Mappings.Profiles
     {
         public CategoryProfile()
         {
-            CreateMap<Models.Category, Dtos.CategoryDto>();
-            CreateMap<Dtos.CategoryDto, Models.Category>();
+            CreateMap<Models.Category, CategoryRequest>().ReverseMap();
+            CreateMap<Models.Category, CategoryRequest.ChildrenRequest>().ReverseMap();
+            CreateMap<Models.Category, CategoryRequest.ProductRequest>().ReverseMap();
+            CreateMap<Models.Category, CategoryReponse>().ReverseMap();
+            CreateMap<Models.Category, CategoryReponse.Child>().ReverseMap();
+            CreateMap<Models.Category, CategoryReponse.Product>().ReverseMap();
+
         }
     }
 }
