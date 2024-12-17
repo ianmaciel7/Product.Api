@@ -3,13 +3,13 @@ using Product.Api.Dtos.Reponses;
 using Product.Api.Dtos.Requests;
 using Product.Api.Services;
 
-namespace Product.Api.Endpoints.V1
+namespace Product.Api.Endpoints
 {
     public static class CategoriesEnpoints
     {
         public static void MapCategoriesEndpoints(this IEndpointRouteBuilder endpoints)
         {
-            var group = endpoints.MapGroup("v1/categories")
+            var group = endpoints.MapGroup(Resource.Categories)
                                  .WithTags(Tag.Categories)
                                  .ProducesProblem(StatusCodes.Status400BadRequest);
 
