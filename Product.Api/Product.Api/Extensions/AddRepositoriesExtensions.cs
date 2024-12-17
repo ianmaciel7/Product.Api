@@ -17,6 +17,10 @@ namespace Product.Api.Extensions
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
+                if (featureFlagsOptions.UseInMemoryDatabase && featureFlagsOptions.UseInMemoryDatabase)
+                {
+                    throw new InvalidOperationException("It is not possible to select more than one type of database.");
+                }
                 if (featureFlagsOptions.UseSqlServer)
                 {
                     options.UseSqlServer(connectionString);

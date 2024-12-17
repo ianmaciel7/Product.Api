@@ -12,10 +12,6 @@ namespace Product.Api.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.EnableSensitiveDataLogging();
-            if (env.IsDevelopment())
-            {
-                optionsBuilder.UseInMemoryDatabase("InMemoryDb");
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
