@@ -27,8 +27,40 @@ namespace Product.Api.Services
 
         public async Task<IResult> GetAllAsync()
         {
-            var categories = await categoryRepostiory.GetAllAsync() ?? [];
-            return Results.Ok(categories);
+            var entity = await categoryRepostiory.GetAllByParentIsNullAsync() ?? [];
+            var values = entity.Select(c => new
+            {
+                c.CategoryId,
+                c.Name,
+                c.Description,
+                Products = c.Products.Select(p => new
+                {
+                    p.ProductId,
+                    p.Name,
+                    p.Description,
+                    p.Price,
+                }),
+                Children = GetCategoryChildren(c.Children)
+            });
+            return Results.Ok(values);
+        }
+
+        private static IEnumerable<object> GetCategoryChildren(IEnumerable<Category> children)
+        {
+            return children.Select(child => new
+            {
+                child.CategoryId,
+                child.Name,
+                child.Description,
+                Products = child.Products.Select(p => new
+                {
+                    p.ProductId,
+                    p.Name,
+                    p.Description,
+                    p.Price,
+                }),
+                Children = child.Children.Any() ? GetCategoryChildren(child.Children) : null  // Verifica se tem filhos
+            });
         }
 
         public async Task<IResult> GetAllProductsAsync(Guid categoryId)

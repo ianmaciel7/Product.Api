@@ -1,4 +1,5 @@
-﻿using Product.Api.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Product.Api.Models;
 
 namespace Product.Api.Repositories
 {
@@ -12,6 +13,11 @@ namespace Product.Api.Repositories
         public Task<IEnumerable<Category>> GetAllAsync()
         {
             return repository.GetAllAsync();
+        }
+
+        public async Task<IEnumerable<Category>> GetAllByParentIsNullAsync()
+        {
+            return await repository.DbSet.Where(e => e.Parent == null).ToListAsync();
         }
 
         public Task<Category?> GetByIdAsync(Guid id)

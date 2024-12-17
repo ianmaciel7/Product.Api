@@ -4,5 +4,6 @@ namespace Product.Api.Repositories
 {
     public interface ICategoryRepostiory : IRepository<Category, Guid>
     {
+        Task<IEnumerable<Category>> GetAllByParentIsNullAsync();
     }
 }
