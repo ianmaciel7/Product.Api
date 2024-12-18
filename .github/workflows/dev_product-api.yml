@@ -21,17 +21,11 @@ jobs:
         with:
           dotnet-version: '9.x'
 
-      - name: List folders
-        run: ls -a
-
-      - name: List Product.Api inside folders
-        run: ls -a ./Product.Api
-
       - name: Build with dotnet
-        run: dotnet build ./Product.Api/Product.Api.sln  --configuration Release
+        run: dotnet build Product.Api/Product.Api.sln  --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ./Product.Api/Product.Api.sln -c Release -o ${{env.DOTNET_ROOT}}/app
+        run: dotnet publish Product.Api/Product.Api.sln -c Release -o ${{env.DOTNET_ROOT}}/app
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
