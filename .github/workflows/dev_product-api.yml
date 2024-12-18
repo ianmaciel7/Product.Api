@@ -21,6 +21,9 @@ jobs:
         with:
           dotnet-version: '9.x'
 
+      - name: List folders
+        run: ls -a
+
       - name: Build with dotnet
         run: dotnet build Product.Api.sln  --configuration Release
 
