@@ -1,17 +1,17 @@
 using Scalar.AspNetCore;
 using Product.Api.Extensions;
 using Product.Api.Endpoints;
+using Product.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
 builder.Services.AddFeatureFlag();
 builder.Services.AddServices();
 builder.Services.AddRepositories();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddExceptionHandler<ExceptionHandler>();
 
 var app = builder.Build();
 
